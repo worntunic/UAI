@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e5091c0de97b644884c2f77a9602d71, type: 3}
+  m_Name: Purp
+  m_EditorClassIdentifier: 
+  regions:
+  - name: Core
+    height: 0.3
+    color: {r: 0.73, g: 0, b: 0.2798959, a: 1}
+  - name: UpperCore
+    height: 0.35
+    color: {r: 0.95, g: 0, b: 0.3653842, a: 1}
+  - name: Coast
+    height: 0.45
+    color: {r: 1, g: 0, b: 0.5031934, a: 1}
+  - name: Mellow
+    height: 0.55
+    color: {r: 0, g: 0.69330066, b: 0.8980392, a: 1}
+  - name: DeepMellow
+    height: 0.7
+    color: {r: 0, g: 0.4220175, b: 0.546, a: 1}
+  - name: GreenFrost
+    height: 0.8
+    color: {r: 0, g: 0.773, b: 0.5729295, a: 1}
+  - name: Tip
+    height: 1
+    color: {r: 0, g: 1, b: 0.74111676, a: 1}
