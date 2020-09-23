@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace  TerrainGen.Terrain
+namespace  UAI.Demo.Terrain
 {
 
     public class MapGenerator : MonoBehaviour

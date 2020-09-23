@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TerrainGen.InputControl
+namespace UAI.InputControl
 {
     public class InputController : MonoBehaviour
     {
         public KeyCode generateTerrainKey = KeyCode.G;
-        public Terrain.MapGenerator mapGenerator;
+        public Demo.Terrain.MapGenerator mapGenerator;
 
         private void Update()
         {

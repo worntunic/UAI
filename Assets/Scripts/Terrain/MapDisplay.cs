@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TerrainGen.Terrain
+namespace UAI.Demo.Terrain
 {
     public class MapDisplay : MonoBehaviour
     {
