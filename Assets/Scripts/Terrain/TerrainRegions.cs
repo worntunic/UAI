@@ -10,6 +10,7 @@ namespace UAI.Demo.Terrain
         public string name;
         public float height;
         public Color color;
+        public bool passable;
     }
     [CreateAssetMenu(fileName = "TerrainRegions", menuName = "Data/Terrain/Regions", order = 1)]
     public class TerrainRegions : ScriptableObject

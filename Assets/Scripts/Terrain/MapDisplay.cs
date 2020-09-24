@@ -16,28 +16,25 @@ namespace UAI.Demo.Terrain
         public MeshRenderer renderer3D;
         private Texture2D curTexture;
         public FilterMode textureFilterMode;
-        public TerrainRegions currentTerrain;
         public TerrainMeshSettings tmSettings;
 
 
-        public void DrawNoiseMap(float[,] noiseMap)
+        public void DrawNoiseMap(MapInfo mapInfo)
         {
-            int width = noiseMap.GetLength(0);
-            int height = noiseMap.GetLength(1);
-            GenerateTexture(noiseMap);
+            GenerateTexture(mapInfo);
 
             if (drawMode == DrawMode._2D)
             {
-                Draw2D(width, height);
+                Draw2D(mapInfo.Width, mapInfo.Height);
             } else if (drawMode == DrawMode._3D)
             {
-                Draw3D(noiseMap);
+                Draw3D(mapInfo);
             }
         }
 
-        private void Draw3D(float[,] noiseMap)
+        private void Draw3D(MapInfo mapInfo)
         {
-            MeshData meshData = MeshGenerator.GenerateTerrainMesh(noiseMap, tmSettings);
+            MeshData meshData = MeshGenerator.GenerateTerrainMesh(mapInfo, tmSettings);
             meshFilter.sharedMesh = meshData.CreateMesh();
             renderer3D.sharedMaterial.mainTexture = curTexture;
             renderer3D.enabled = true;
@@ -52,85 +49,72 @@ namespace UAI.Demo.Terrain
             renderer2D.enabled = true;
             renderer3D.enabled = false;
         }
-        private void GenerateTexture(float[,] noiseMap)
+        private void GenerateTexture(MapInfo mapInfo)
         {
-            int width = noiseMap.GetLength(0);
-            int height = noiseMap.GetLength(1);
-            Color[,] color2D = null;
+            Color[] colors = null;
             if (colorType == ColorType.Grayscale)
             {
-                color2D = NoiseToBNW(noiseMap);
+                colors = NoiseToBNW(mapInfo);
             }
             else if (colorType == ColorType.Terrain)
             {
-                color2D = NoiseToRegionColors(noiseMap, false);
+                colors = NoiseToRegionColors(mapInfo, false);
             }
             else if (colorType == ColorType.TerrainGradient)
             {
-                color2D = NoiseToRegionColors(noiseMap, true);
+                colors = NoiseToRegionColors(mapInfo, true);
             }
 
-            if (curTexture == null || curTexture.width != width || curTexture.height != height)
+            if (curTexture == null || curTexture.width != mapInfo.Width || curTexture.height != mapInfo.Height)
             {
-                curTexture = new Texture2D(width, height);
+                curTexture = new Texture2D(mapInfo.Width, mapInfo.Height);
 
             }
             curTexture.filterMode = textureFilterMode;
-            Color[] colors = Convert2Dto1D(color2D);
 
             curTexture.SetPixels(colors);
             curTexture.Apply();
         }
-        private Color[,] NoiseToRegionColors(float[,] noiseMap, bool gradientColors = false)
+        private Color[] NoiseToRegionColors(MapInfo mapInfo, bool gradientColors = false)
         {
-            int width = noiseMap.GetLength(0);
-            int height = noiseMap.GetLength(1);
-            Color[,] colors = new Color[width, height];
-            for (int y = 0; y < height; y++)
+            Color[] colors = new Color[mapInfo.Width * mapInfo.Height];
+            for (int y = 0; y < mapInfo.Height; y++)
             {
-                for (int x = 0; x < width; x++)
+                for (int x = 0; x < mapInfo.Width; x++)
                 {
-                    bool foundColor = false;
-                    for (int i = 0; i < currentTerrain.regions.Length - 1; i++)
+                    int terrainIndex = mapInfo.tiles[x, y].terrainTypeIndex;
+                    if (gradientColors)
                     {
-                        if (noiseMap[x, y] < currentTerrain.regions[i].height)
-                        {
-                            colors[x, y] = gradientColors ? GetRegionColorGradient(i, noiseMap[x, y]) : GetRegionColor(i);
-                            foundColor = true;
-                            break;
-                        }
-                    }
-                    if (!foundColor)
+                        colors[y * mapInfo.Height + x] = GetRegionColorGradient(terrainIndex, mapInfo, mapInfo.tiles[x, y].noise);
+                    } else
                     {
-                        colors[x, y] = gradientColors ? GetRegionColorGradient(currentTerrain.regions.Length - 1, noiseMap[x, y]) : GetRegionColor(currentTerrain.regions.Length - 1); ;
+                        colors[y * mapInfo.Height + x] = GetRegionColor(terrainIndex, mapInfo);
                     }
                 }
             }
             return colors;
         }
-        private Color GetRegionColor(int index)
+        private Color GetRegionColor(int index, MapInfo mapInfo)
         {
-            return currentTerrain.regions[index].color;
+            return mapInfo.terrain.regions[index].color;
         }
-        private Color GetRegionColorGradient(int index, float height)
+        private Color GetRegionColorGradient(int index, MapInfo mapInfo, float height)
         {
             if (index == 0)
             {
-                return currentTerrain.regions[index].color;
+                return mapInfo.terrain.regions[index].color;
             }
-            float t = (height - currentTerrain.regions[index - 1].height) / (currentTerrain.regions[index].height - currentTerrain.regions[index - 1].height);
-            return Color.Lerp(currentTerrain.regions[index - 1].color, currentTerrain.regions[index].color, t);
+            float t = (height - mapInfo.terrain.regions[index - 1].height) / (mapInfo.terrain.regions[index].height - mapInfo.terrain.regions[index - 1].height);
+            return Color.Lerp(mapInfo.terrain.regions[index - 1].color, mapInfo.terrain.regions[index].color, t);
         }
-        private Color[,] NoiseToBNW(float[,] noiseMap)
+        private Color[] NoiseToBNW(MapInfo mapInfo)
         {
-            int width = noiseMap.GetLength(0);
-            int height = noiseMap.GetLength(1);
-            Color[,] colors = new Color[width, height];
-            for (int y = 0; y < height; y++)
+            Color[] colors = new Color[mapInfo.Width * mapInfo.Height];
+            for (int y = 0; y < mapInfo.Height; y++)
             {
-                for (int x = 0; x < width; x++)
+                for (int x = 0; x < mapInfo.Width; x++)
                 {
-                    colors[x, y] = Color.Lerp(Color.black, Color.white, noiseMap[x, y]);
+                    colors[y * mapInfo.Height + x] = Color.Lerp(Color.black, Color.white, mapInfo.tiles[x, y].noise);
                 }
             }
             return colors;
