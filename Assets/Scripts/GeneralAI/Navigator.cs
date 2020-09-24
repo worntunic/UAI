@@ -39,11 +39,12 @@ namespace UAI.GeneralAI
         {
             gridWorldSize = new Vector2(mapInfo.Width * mapInfo.tileScale, mapInfo.Height * mapInfo.tileScale);
             nodes = new MapNode[mapInfo.Width, mapInfo.Height];
-            for (int y = 0; y < mapInfo.Height; y++)
+            for (int y = mapInfo.Height - 1; y >= 0; y--)
             {
                 for (int x = 0; x < mapInfo.Width; x++)
                 {
-                    Vector3 worldPos = new Vector3(mapInfo.tileScale * x - gridWorldSize.x / 2, mapInfo.tiles[x, y].height, mapInfo.tileScale * y - gridWorldSize.y / 2);
+                    int flippedY = mapInfo.Height - 1 - y;
+                    Vector3 worldPos = new Vector3(1 + mapInfo.tileScale * x - gridWorldSize.x / 2, mapInfo.tiles[x, y].height, mapInfo.tileScale * flippedY - gridWorldSize.y / 2);
                     nodes[x, y] = new MapNode(x, y, worldPos, mapInfo.GetTileTerrain(x, y).passable);
                 }
             }
@@ -51,10 +52,11 @@ namespace UAI.GeneralAI
 
         public MapNode GetFromWorldPos(Vector3 worldPos)
         {
-            float percentX = Mathf.Clamp01((worldPos.x /*+ gridWorldSize.x / 2*/) / gridWorldSize.x);
-            float percentY = Mathf.Clamp01((worldPos.z /*+ gridWorldSize.y / 2*/) / gridWorldSize.y);
+            float percentX = Mathf.Clamp01((worldPos.x + (gridWorldSize.x / 2) - 1) / gridWorldSize.x);
+            float percentY = Mathf.Clamp01((worldPos.z + (gridWorldSize.y / 2)) / gridWorldSize.y);
+            float flippedPercentY = 1 - percentY;
             int x = Mathf.RoundToInt((Width - 1) * percentX);
-            int y = Mathf.RoundToInt((Height - 1) * percentY);
+            int y = Mathf.RoundToInt((Height - 1) * flippedPercentY);
             return nodes[x, y];
         }
 
@@ -88,33 +90,29 @@ namespace UAI.GeneralAI
 
 
     }
-    public class Navigator : MonoBehaviour
+    public class Pathfinding
     {
         public MapInfo mapInfo;
         public MapGrid mapGrid;
         public int diagonalMoveCost = 10;
         public int normalMoveCost = 10;
-        private List<MapNode> path;
-        public Vector3 start, target;
+        public List<MapNode> path;
 
-
-        private void OnEnable()
-        {
-            MapGenerator.OnMapGenerated += OnMapGenerated; 
-        }
-
-        private void OnDisable()
-        {
-            MapGenerator.OnMapGenerated -= OnMapGenerated;
-        }
-
-        private void OnMapGenerated(MapInfo mapInfo)
+        public void AssignMap(MapInfo mapInfo)
         {
             this.mapInfo = mapInfo;
             mapGrid = new MapGrid(mapInfo);
         }
-
-        public void FindPath(Vector3 startPos, Vector3 targetPos)
+        public List<MapNode> FindPathToRandomPoint(Vector3 startPos)
+        {
+            MapNode randomNode = null;
+            while (randomNode == null || !randomNode.passable && mapGrid.GetFromWorldPos(startPos) != randomNode)
+            {
+                randomNode = mapGrid.nodes[UnityEngine.Random.Range(0, mapGrid.Width), UnityEngine.Random.Range(0, mapGrid.Height)];
+            }
+            return FindPath(startPos, randomNode.worldPoint);
+        }
+        public List<MapNode> FindPath(Vector3 startPos, Vector3 targetPos)
         {
             List<MapNode> openSet = new List<MapNode>();
             HashSet<MapNode> closedSet = new HashSet<MapNode>();
@@ -142,7 +140,7 @@ namespace UAI.GeneralAI
 
                 if (current == target)
                 {
-                    RetracePath(start, target);
+                    return RetracePath(start, target);
                 }
                 List<MapNode> neighbours = mapGrid.GetNeighbours(current);
                 foreach (MapNode neighbour in neighbours)
@@ -166,6 +164,7 @@ namespace UAI.GeneralAI
                     }
                 }
             }
+            return new List<MapNode> { start };
         }
 
         private List<MapNode> RetracePath(MapNode start, MapNode end)
@@ -194,24 +193,6 @@ namespace UAI.GeneralAI
             } else
             {
                 return dstX * normalMoveCost + (dstY - dstX) * normalMoveCost;
-            }
-        }
-
-        private void OnDrawGizmos()
-        {
-            if (mapGrid != null)
-            {
-                Gizmos.DrawWireCube(transform.position, new Vector3(mapGrid.Width, 1, mapGrid.Height));
-
-                foreach (MapNode n in mapGrid.nodes)
-                {
-                    Gizmos.color = n.passable ? Color.white : Color.black;
-                    if (path != null && path.Contains(n))
-                    {
-                        Gizmos.color = Color.red;
-                    }
-                    Gizmos.DrawCube(n.worldPoint, Vector3.one * mapInfo.tileScale);
-                }
             }
         }
     }

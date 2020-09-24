@@ -10,29 +10,22 @@ namespace  UAI.Demo.Terrain
     public class MapGenerator : MonoBehaviour
     {
         public bool autoUpdate = false;
-        public bool generateOnStart = true;
         public NoiseSettings noiseSettings;
         public MapDisplay mapDisplay;
-        private MapInfo mapInfo;
+        private MapInfo _mapInfo;
+        public MapInfo MapInfo { get { return _mapInfo; } }
         public TerrainRegions region;
         public static event Action<MapInfo> OnMapGenerated;
 
-        private void Awake()
-        {
-            mapInfo = new MapInfo();
-        }
-        private void Start()
-        {
-            GenerateMap();
-        }
         public void GenerateMap()
         {
+
             float[,] noiseMap = Noise.GenerateNoise(noiseSettings);
+            _mapInfo = new MapInfo();
+            _mapInfo.GenerateMap(noiseMap, region);
+            mapDisplay.DrawNoiseMap(_mapInfo);
 
-            mapInfo.GenerateMap(noiseMap, region);
-            mapDisplay.DrawNoiseMap(mapInfo);
-
-            OnMapGenerated?.Invoke(mapInfo);
+            OnMapGenerated?.Invoke(_mapInfo);
         }
 
 

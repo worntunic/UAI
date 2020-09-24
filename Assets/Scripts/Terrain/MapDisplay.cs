@@ -7,7 +7,7 @@ namespace UAI.Demo.Terrain
     public class MapDisplay : MonoBehaviour
     {
         public enum DrawMode { _2D, _3D };
-        public enum ColorType { Grayscale, Terrain, TerrainGradient }
+        public enum ColorType { Grayscale, Terrain, TerrainGradient, Passability }
 
         public DrawMode drawMode;
         public ColorType colorType;
@@ -29,7 +29,7 @@ namespace UAI.Demo.Terrain
             } else if (drawMode == DrawMode._3D)
             {
                 Draw3D(mapInfo);
-            }
+            } 
         }
 
         private void Draw3D(MapInfo mapInfo)
@@ -45,7 +45,7 @@ namespace UAI.Demo.Terrain
         {
             renderer2D.sharedMaterial.mainTexture = curTexture;
             renderer2D.transform.localScale = new Vector3(width, 1, height);
-            Camera.main.transform.position = new Vector3(0, 1, (height * (-10)));
+            //Camera.main.transform.position = new Vector3(0, 1, (height * (-10)));
             renderer2D.enabled = true;
             renderer3D.enabled = false;
         }
@@ -63,6 +63,9 @@ namespace UAI.Demo.Terrain
             else if (colorType == ColorType.TerrainGradient)
             {
                 colors = NoiseToRegionColors(mapInfo, true);
+            } else if (colorType == ColorType.Passability)
+            {
+                colors = NoiseToPassability(mapInfo);
             }
 
             if (curTexture == null || curTexture.width != mapInfo.Width || curTexture.height != mapInfo.Height)
@@ -71,7 +74,6 @@ namespace UAI.Demo.Terrain
 
             }
             curTexture.filterMode = textureFilterMode;
-
             curTexture.SetPixels(colors);
             curTexture.Apply();
         }
@@ -115,6 +117,18 @@ namespace UAI.Demo.Terrain
                 for (int x = 0; x < mapInfo.Width; x++)
                 {
                     colors[y * mapInfo.Height + x] = Color.Lerp(Color.black, Color.white, mapInfo.tiles[x, y].noise);
+                }
+            }
+            return colors;
+        }
+        private Color[] NoiseToPassability(MapInfo mapInfo)
+        {
+            Color[] colors = new Color[mapInfo.Width * mapInfo.Height];
+            for (int y = 0; y < mapInfo.Height; y++)
+            {
+                for (int x = 0; x < mapInfo.Width; x++)
+                {
+                    colors[y * mapInfo.Height + x] = mapInfo.GetTileTerrain(x, y).passable ?Color.gray : Color.white;
                 }
             }
             return colors;
