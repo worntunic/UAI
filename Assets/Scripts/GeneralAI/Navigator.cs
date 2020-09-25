@@ -88,6 +88,15 @@ namespace UAI.GeneralAI
             return x >= 0 && x < Width && y >= 0 && y < Height;
         }
 
+        public MapNode GetRandomPassableNode()
+        {
+            MapNode randomNode = null;
+            while (randomNode == null || !randomNode.passable)
+            {
+                randomNode = nodes[UnityEngine.Random.Range(0, Width), UnityEngine.Random.Range(0, Height)];
+            }
+            return randomNode;
+        }
 
     }
     public class Pathfinding
@@ -106,9 +115,9 @@ namespace UAI.GeneralAI
         public List<MapNode> FindPathToRandomPoint(Vector3 startPos)
         {
             MapNode randomNode = null;
-            while (randomNode == null || !randomNode.passable && mapGrid.GetFromWorldPos(startPos) != randomNode)
+            while (randomNode == null || mapGrid.GetFromWorldPos(startPos) == randomNode)
             {
-                randomNode = mapGrid.nodes[UnityEngine.Random.Range(0, mapGrid.Width), UnityEngine.Random.Range(0, mapGrid.Height)];
+                randomNode = mapGrid.GetRandomPassableNode();
             }
             return FindPath(startPos, randomNode.worldPoint);
         }

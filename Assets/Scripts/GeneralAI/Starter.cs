@@ -8,6 +8,7 @@ namespace UAI.GeneralAI
     public class Starter : MonoBehaviour
     {
         public MapGenerator mapGenerator;
+        public Plants plants;
         private static Pathfinding _pathfinder;
         public static Pathfinding PathFinder { get { return _pathfinder; } }
         public bool drawPassability = true;
@@ -17,6 +18,7 @@ namespace UAI.GeneralAI
             mapGenerator.GenerateMap();
             _pathfinder = new Pathfinding();
             _pathfinder.AssignMap(mapGenerator.MapInfo);
+            plants.Initiate(_pathfinder.mapGrid);
         }
 
         /*private void OnEnable()

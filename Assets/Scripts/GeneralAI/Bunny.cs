@@ -15,6 +15,7 @@ namespace UAI.GeneralAI
         private Timer stepTimer, moveTimer;
         private Vector3 prevPos;
         private Vector3 target;
+        public Sensor sensor;
 
         private void Start()
         {
@@ -56,7 +57,7 @@ namespace UAI.GeneralAI
         }
         private void GetNewPath()
         {
-            currentPath = Starter.PathFinder.FindPathToRandomPoint(transform.position);
+            currentPath = Starter.PathFinder.FindPath(transform.position, sensor.GetPathToClosestPlant());
             while (currentPath.Count <= 1)
             {
                 currentPath = Starter.PathFinder.FindPathToRandomPoint(transform.position);
