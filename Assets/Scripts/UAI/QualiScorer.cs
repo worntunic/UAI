@@ -35,7 +35,7 @@ namespace UAI.AI
             SumOfChildren, AllOrNothing, Fixed, SumIfAboveThreshold
         }
         public QualiType type;
-        public Func<Context, float> evalMethod;
+        private Func<Context, float> evalMethod;
         public float threshold;
         List<WeightedScorer> weightedScorers;
 
