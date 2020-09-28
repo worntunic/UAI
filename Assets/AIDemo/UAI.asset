@@ -12,4 +12,78 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 741bcc37326d53f40aa05ad72d2bfe1c, type: 3}
   m_Name: UAI
   m_EditorClassIdentifier: 
-  nodes: []
+  context: {fileID: 11400000, guid: c9d1ce08d7b4c1648a866d0a635eee26, type: 2}
+  scorers:
+  - guid: 797ba529-2fbf-4a1b-b9ca-20ab4641677d
+    position: {x: -340, y: 353}
+    nodeType: 0
+    key: Thirst
+    uFunction:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - guid: 2c9e7ec9-1a43-48a6-a814-317bb7613b8f
+    position: {x: -348, y: 117}
+    nodeType: 0
+    key: Thirst
+    uFunction:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - guid: 67d7fd8a-ce18-494d-89a1-0c0d434a9e2c
+    position: {x: -219, y: 549}
+    nodeType: 0
+    key: BreedNeed
+    uFunction:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  qualiScorers:
+  - guid: c96e4947-5b74-488e-b6ab-5227889dc56a
+    position: {x: 150, y: 176}
+    nodeType: 0
+    qualiType: 2
+    threshold: 0.9
+    inLinks:
+    - otherNodeID: 2c9e7ec9-1a43-48a6-a814-317bb7613b8f
+      weight: 0.5
+    - otherNodeID: 797ba529-2fbf-4a1b-b9ca-20ab4641677d
+      weight: 0.5
+    - otherNodeID: 67d7fd8a-ce18-494d-89a1-0c0d434a9e2c
+      weight: 0.4
+    - otherNodeID: 
+      weight: 0.5
+  - guid: 19ff174b-3e33-4b46-8109-49c21f332987
+    position: {x: 55, y: -65}
+    nodeType: 0
+    qualiType: 2
+    threshold: 0
+    inLinks:
+    - otherNodeID: 2c9e7ec9-1a43-48a6-a814-317bb7613b8f
+      weight: 0.5
+    - otherNodeID: 
+      weight: 0.2
+  qualifiers:
+  - guid: 4458788b-6b5e-42c2-bc8a-6aed699a587d
+    position: {x: 458, y: 150}
+    nodeType: 0
+    qualiType: 0
+    threshold: 0.2
+    inLinks:
+    - otherNodeID: c96e4947-5b74-488e-b6ab-5227889dc56a
+      weight: 0.5
+    - otherNodeID: 19ff174b-3e33-4b46-8109-49c21f332987
+      weight: 0.5
+    - otherNodeID: 
+      weight: 0.5
+    actionName: Run
+  selectorData:
+    selectorType: 4
+    bestPercent: 0.61
+    bestN: 4

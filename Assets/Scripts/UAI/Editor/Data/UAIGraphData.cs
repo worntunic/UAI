@@ -13,13 +13,15 @@ namespace UAI.AI.Edit
         public List<ScorerData> scorers;
         public List<QualiScorerData> qualiScorers;
         public List<QualifierData> qualifiers;
+        public SelectorData selectorData;
     }
 
     public enum NodeType { Scorer, Qualiscorer, Qualifier }
-    public struct NodeWeightedLink
+    [System.Serializable]
+    public class NodeWeightedLink
     {
-        string otherNodeID;
-        float weight;
+        public string otherNodeID;
+        public float weight;
     }
     [System.Serializable]
     public class NodeData
@@ -32,10 +34,10 @@ namespace UAI.AI.Edit
     public class ScorerData : NodeData
     {
         public string key;
-        public AnimationCurve curve;
+        public AnimationCurve uFunction;
     }
     [System.Serializable]
-    public class QualiScorerData
+    public class QualiScorerData : NodeData
     {
         public QualiType qualiType;
         public float threshold;
@@ -45,6 +47,13 @@ namespace UAI.AI.Edit
     public class QualifierData : QualiScorerData
     {
         public string actionName;
+    }
+    [System.Serializable]
+    public class SelectorData
+    {
+        public Selector.SelectorType selectorType;
+        public float bestPercent;
+        public int bestN;
     }
 }
 

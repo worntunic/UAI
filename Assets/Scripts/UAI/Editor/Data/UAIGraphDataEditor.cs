@@ -10,17 +10,18 @@ namespace UAI.AI.Edit
     {
         public override void OnInspectorGUI()
         {
+
             //base.OnInspectorGUI();
             UAIGraphData graphData = (UAIGraphData)target;
-
-            if (DrawDefaultInspector())
-            {
-            }
-
             if (GUILayout.Button("Load Graph Editor"))
             {
                 UtilityGraphWindow.OpenEditorWindow(graphData);
             }
+            if (DrawDefaultInspector())
+            {
+            }
+
+
         }
     }
 }
