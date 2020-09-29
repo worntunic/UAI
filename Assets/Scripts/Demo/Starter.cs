@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UAI.Demo;
 using UAI.Demo.Terrain;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace UAI.GeneralAI
     {
         public MapGenerator mapGenerator;
         public Plants plants;
+        public DrinkingWater drinkingWater;
         private static Pathfinding _pathfinder;
         public static Pathfinding PathFinder { get { return _pathfinder; } }
         public bool drawPassability = true;
@@ -18,7 +20,8 @@ namespace UAI.GeneralAI
             mapGenerator.GenerateMap();
             _pathfinder = new Pathfinding();
             _pathfinder.AssignMap(mapGenerator.MapInfo);
-            plants.Initiate(_pathfinder.mapGrid);
+            plants.Init(_pathfinder.mapGrid);
+            drinkingWater.Init(_pathfinder.mapGrid);
         }
 
         /*private void OnEnable()

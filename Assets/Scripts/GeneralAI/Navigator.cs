@@ -34,9 +34,11 @@ namespace UAI.GeneralAI
         public int Width { get { return nodes.GetLength(0); } }
         public int Height { get { return nodes.GetLength(1); } }
         private Vector2 gridWorldSize;
+        public MapInfo mapInfo;
 
         public MapGrid(MapInfo mapInfo)
         {
+            this.mapInfo = mapInfo;
             gridWorldSize = new Vector2(mapInfo.Width * mapInfo.tileScale, mapInfo.Height * mapInfo.tileScale);
             nodes = new MapNode[mapInfo.Width, mapInfo.Height];
             for (int y = mapInfo.Height - 1; y >= 0; y--)
@@ -186,7 +188,6 @@ namespace UAI.GeneralAI
                 current = current.parent;
             }
             path.Reverse();
-            Debug.Log(path.Count);
             return path;
         }
 

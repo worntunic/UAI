@@ -114,8 +114,12 @@ namespace UAI.AI.Edit
         }
         private void OnDisable()
         {
-            graphView.SaveGraphData();
-            rootVisualElement.Remove(graphView);
+            if (graphView != null)
+            {
+                graphView.SaveGraphData();
+                rootVisualElement.Remove(graphView);
+            }
+
         }
     }
 }

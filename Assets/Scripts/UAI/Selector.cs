@@ -1,11 +1,26 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace UAI.AI
 {
+    public struct ActionValue
+    {
+        public string action;
+        public float value;
 
+        public ActionValue(string action, float value)
+        {
+            this.action = action;
+            this.value = value;
+        }
+        public override string ToString()
+        {
+            return $"({action}:{value}";
+        }
+    }
     public class Selector
     {
         public enum SelectorType
@@ -19,18 +34,22 @@ namespace UAI.AI
         public int BestN { get { return _bestN; } set { _bestN = (value > 1) ? value : 1; } }
         private float _bestPercent;
         public float BestPercent { get { return _bestPercent; } set { _bestPercent = Mathf.Clamp01(value); } }
+        private Func<Context, List<ActionValue>> evalMethod;
 
         public Selector()
         {
             qualifiers = new List<Qualifier>();
             type = SelectorType.Best;
+            SelectEvalMethod();
         }
 
         public Selector(SelectorType type)
         {
             qualifiers = new List<Qualifier>();
             this.type = type;
+            SelectEvalMethod();
         }
+
 
         public void AddQualifier(Qualifier qualifier)
         {
@@ -41,52 +60,88 @@ namespace UAI.AI
         {
             qualifiers.Remove(qualifier);
         }
-        private List<(Qualifier, float)> GetOrdered(Context context)
+        public List<ActionValue> Evaluate(Context context)
         {
-            List<(Qualifier, float)> qts = new List<(Qualifier, float)>(qualifiers.Count);
-            for (int i = 0; i < qualifiers.Count; i++)
+            return evalMethod(context);
+        }
+        private void SelectEvalMethod()
+        {
+            switch (type)
             {
-                qts.Add((qualifiers[i], qualifiers[i].Evaluate(context)));
-            }
-            qts.Sort(delegate((Qualifier, float) x, (Qualifier, float) y) {
-                return (x.Item2 - y.Item2).RoundOutToInt();
-            });
-            return qts;
-        }
-        
+                case SelectorType.Best:
+                {
+                    evalMethod = EvalBest;
+                    break;
+                }
+                case SelectorType.RandomFromBestN:
+                {
+                    evalMethod = EvalBestRandomFromN;
+                    break;
+                }
+                case SelectorType.WeightedRandomFromBestN:
+                {
+                    evalMethod = EvalBestWeightedRandomFromN;
+                    break;
+                }
+                case SelectorType.RandomFromTopPercent:
+                {
+                    evalMethod = EvalBestRandomTopPercent;
+                    break;
+                }
+                case SelectorType.WeightedRandomFromTopPercent:
+                {
+                    evalMethod = EvalBestWeightedRandomTopPercent;
+                    break;
+                }
+                case SelectorType.TrueRandom:
+                {
+                    evalMethod = EvalRandom;
+                    break;
+                }
 
-        private string EvalBest(Context context)
-        {
-            return GetOrdered(context)[0].Item1.actionName;
+            }
         }
-        private string EvalBestRandomFromN(Context context)
+
+        private List<ActionValue> EvalBest(Context context)
         {
-            int index = Random.Range(0, BestN);
-            return GetOrdered(context)[index].Item1.actionName;
+            return GetOrderedActionValues(context);
         }
-        private string EvalBestWeightedRandomFromN(Context context)
+        private List<ActionValue> EvalBestRandomFromN(Context context)
         {
-            int index = Random.Range(0, BestN);
-            List<(Qualifier, float)> qts = GetOrdered(context);
-            float valueSum = qts.GetRange(0, BestN).Sum(qt => qt.Item2);
-            float randomNumber = Random.Range(0, valueSum);
+            int index = UnityEngine.Random.Range(0, BestN);
+            List<ActionValue> actionValues = GetOrderedActionValues(context);
+            ActionValue tmp = actionValues[index];
+            actionValues[index] = actionValues[0];
+            actionValues[0] = tmp;
+            return actionValues;
+        }
+        private List<ActionValue> EvalBestWeightedRandomFromN(Context context)
+        {
+            List<ActionValue> actionValues = GetOrderedActionValues(context);
+            float valueSum = actionValues.GetRange(0, BestN).Sum(av => av.value);
+            float randomNumber = UnityEngine.Random.Range(0, valueSum);
+            int index = 0;
             for (int i = 0; i < BestN; i++)
             {
-                if (qts[i].Item2 >= randomNumber)
+                if (actionValues[i].value >= randomNumber)
                 {
-                    return qts[i].Item1.actionName;
+                    index = i;
+                    break;
                 }
             }
-            return qts[0].Item1.actionName;
+            ActionValue tmp = actionValues[index];
+            actionValues[index] = actionValues[0];
+            actionValues[0] = tmp;
+            return actionValues;
         }
-        private string EvalBestRandomTopPercent(Context context)
+        private List<ActionValue> EvalBestRandomTopPercent(Context context)
         {
-            List<(Qualifier, float)> qts = GetOrdered(context);
+            List<ActionValue> actionValues = GetOrderedActionValues(context);
             int topCount = 1;
-            float minVal = qts[0].Item2 * (1 - BestPercent);
-            for (int i = 1; i < qts.Count; i++)
+            float minVal = actionValues[0].value * (1 - BestPercent);
+            for (int i = 1; i < actionValues.Count; i++)
             {
-                if (qts[i].Item2 >= minVal)
+                if (actionValues[i].value >= minVal)
                 {
                     topCount++;
                 } else
@@ -94,39 +149,79 @@ namespace UAI.AI
                     break;
                 }
             }
-            int index = Random.Range(0, topCount);
-            return qts[index].Item1.actionName;
+            int index = UnityEngine.Random.Range(0, topCount);
+            ActionValue tmp = actionValues[index];
+            actionValues[index] = actionValues[0];
+            actionValues[0] = tmp;
+            return actionValues;
         }
-        private string EvalBestWeightedRandomTopPercent(Context context)
+        private List<ActionValue> EvalBestWeightedRandomTopPercent(Context context)
         {
-            List<(Qualifier, float)> qts = GetOrdered(context);
-            float minVal = qts[0].Item2 * (1 - BestPercent);
-            float valueSum = qts[0].Item2;
-            for (int i = 1; i < qts.Count; i++)
+            List<ActionValue> actionValues = GetOrderedActionValues(context);
+            float minVal = actionValues[0].value * (1 - BestPercent);
+            float valueSum = actionValues[0].value;
+            for (int i = 1; i < actionValues.Count; i++)
             {
-                if (qts[i].Item2 >= minVal)
+                if (actionValues[i].value >= minVal)
                 {
-                    valueSum += qts[i].Item2;
+                    valueSum += actionValues[i].value;
                 }
                 else
                 {
                     break;
                 }
             }
-            float randomNumber = Random.Range(0, valueSum);
+            float randomNumber = UnityEngine.Random.Range(0, valueSum);
+            int index = 0;
             for (int i = 0; i < BestN; i++)
             {
-                if (qts[i].Item2 >= randomNumber)
+                if (actionValues[i].value >= randomNumber)
                 {
-                    return qts[i].Item1.actionName;
+                    index = i;
+                    break;
                 }
             }
-            return qts[0].Item1.actionName;
+            ActionValue tmp = actionValues[index];
+            actionValues[index] = actionValues[0];
+            actionValues[0] = tmp;
+            return actionValues;
         }
 
-        public string EvalRandom(Context context)
+        private List<ActionValue> EvalRandom(Context context)
         {
-            return qualifiers[Random.Range(0, qualifiers.Count)].actionName;
+            List<ActionValue> actionValues = GetOrderedActionValues(context);
+            int index = UnityEngine.Random.Range(0, actionValues.Count);
+            ActionValue tmp = actionValues[index];
+            actionValues[index] = actionValues[0];
+            actionValues[0] = tmp;
+            return actionValues;
         }
+        private List<ActionValue> ConvertToActionValues(List<(Qualifier, float)> qualValues)
+        {
+            List<ActionValue> retList = new List<ActionValue>();
+            for (int i = 0; i < qualValues.Count; i++)
+            {
+                retList.Add(new ActionValue(qualValues[i].Item1.actionName, qualValues[i].Item2));
+            }
+            return retList;
+        }
+        private List<ActionValue> GetOrderedActionValues(Context context)
+        {
+            return ConvertToActionValues(GetOrdered(context));
+        }
+        private List<(Qualifier, float)> GetOrdered(Context context)
+        {
+            List<(Qualifier, float)> qts = new List<(Qualifier, float)>(qualifiers.Count);
+            for (int i = 0; i < qualifiers.Count; i++)
+            {
+                qts.Add((qualifiers[i], qualifiers[i].Evaluate(context)));
+            }
+            qts.Sort(delegate ((Qualifier, float) x, (Qualifier, float) y) {
+                return (x.Item2 - y.Item2).RoundOutToInt();
+            });
+            return qts;
+        }
+
+
     }
 }

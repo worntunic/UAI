@@ -11,7 +11,7 @@ namespace UAI.GeneralAI
         public int numberOfPlants = 10;
         public MapGrid mapGrid;
 
-        public void Initiate(MapGrid mapGrid)
+        public void Init(MapGrid mapGrid)
         {
             this.mapGrid = mapGrid;
             CreatePlants();

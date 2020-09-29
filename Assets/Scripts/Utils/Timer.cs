@@ -45,6 +45,8 @@ namespace UAI.Utils
         public float GetCurrentTimePercent() { UpdateTime(); return currentTime / maxTime; }
         public float GetTimeLeft() { UpdateTime(); return maxTime - currentTime; }
         public bool IsTimerDone() { UpdateTime(); return currentTime - maxTime >= 0; }
+        public float GetCycles() { UpdateTime(); return currentTime / maxTime; }
+        public int GetFullCycles() { UpdateTime(); return Mathf.FloorToInt(currentTime / maxTime); }
     }
 }
 

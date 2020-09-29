@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UAI.AI.SO;
 using UnityEngine;
 
 namespace UAI.AI
@@ -10,12 +11,12 @@ namespace UAI.AI
         //public List<string> keys = new List<string>();
         private Dictionary<string, float> values;
 
-        public Context(List<string> keys)
+        public void Init(ContextSO contextSO)
         {
             values = new Dictionary<string, float>();
-            for (int i = 0; i < keys.Count; i++)
+            for (int i = 0; i < contextSO.propertyNames.Count; i++)
             {
-                values.Add(keys[i], 0);
+                values.Add(contextSO.propertyNames[i], 0);
             }
         }
 

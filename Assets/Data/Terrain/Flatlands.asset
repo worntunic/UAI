@@ -17,23 +17,29 @@ MonoBehaviour:
     height: 0.05
     color: {r: 0, g: 0.2817108, b: 0.433, a: 1}
     passable: 0
+    drinkingWater: 1
   - name: Shallow Lake
     height: 0.3
     color: {r: 0, g: 0.42375144, b: 0.6509434, a: 1}
     passable: 0
+    drinkingWater: 1
   - name: Coast
     height: 0.38
     color: {r: 0.8118062, g: 0.83137256, b: 0, a: 1}
     passable: 1
+    drinkingWater: 0
   - name: LowFields
     height: 0.4
     color: {r: 0.68135643, g: 0.8490566, b: 0.11614456, a: 1}
     passable: 1
+    drinkingWater: 0
   - name: Woods
     height: 0.7
     color: {r: 0.49473733, g: 0.617, b: 0.085299544, a: 1}
     passable: 1
+    drinkingWater: 0
   - name: Woods
     height: 1
     color: {r: 0.15330134, g: 0.589, b: 0.26071313, a: 1}
     passable: 1
+    drinkingWater: 0

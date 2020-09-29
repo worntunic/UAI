@@ -15,8 +15,8 @@ MonoBehaviour:
   propertyNames:
   - Thirst
   - Hunger
-  - BreedNeed
-  - InDanger
+  - FoodDistance
+  - WaterDistance
   actionNames:
-  - Feed
-  - Run
+  - GetWater
+  - GetFood

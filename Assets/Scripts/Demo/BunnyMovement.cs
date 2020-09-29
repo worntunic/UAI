@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UAI.GeneralAI;
 using UAI.Utils;
 using UnityEngine;
 
-namespace UAI.GeneralAI
+namespace UAI.Demo
 {
-    public class Bunny : MonoBehaviour
+    public class BunnyMovement : MonoBehaviour
     {
         private List<MapNode> currentPath;
         private int pathIndex = 1;
@@ -15,21 +16,34 @@ namespace UAI.GeneralAI
         private Timer stepTimer, moveTimer;
         private Vector3 prevPos;
         private Vector3 target;
-        public Sensor sensor;
+        private bool movementInProgress = false;
+        public bool MovementFinished() => !movementInProgress;
 
         private void Start()
         {
             stepTimer = new Timer(timeBetweenSteps, true);
             moveTimer = new Timer(moveTime, false);
             prevPos = transform.position;
-            GetNewPath();
+            //GetNewPath();
         }
-
+        public void StartNewMovement(Vector3 target)
+        {
+            movementInProgress = true;
+            currentPath = Starter.PathFinder.FindPath(transform.position, target);
+            if (currentPath.Count <= 1)
+            {
+                movementInProgress = false;
+            }
+            pathIndex = 1;
+        }
         private void Update()
         {
-            UpdateMovement();
+            if (movementInProgress)
+            {
+                UpdateMovement();
+            }
+            Move();
         }
-
         private void UpdateMovement()
         {
             if (stepTimer.IsTimerDone())
@@ -44,25 +58,16 @@ namespace UAI.GeneralAI
 
                 if (currentPath.Count == pathIndex)
                 {
-                    GetNewPath();
+                    movementInProgress = false;
                 }
             }
-            Move();
         }
+
         private void Move()
         {
             Vector3 pos = Vector3.Lerp(prevPos, target, moveTimer.GetCurrentTimePercent());
             pos.y = pos.y + jumpCurve.Evaluate(moveTimer.GetCurrentTimePercent());
             transform.position = pos;
-        }
-        private void GetNewPath()
-        {
-            currentPath = Starter.PathFinder.FindPath(transform.position, sensor.GetPathToClosestPlant());
-            while (currentPath.Count <= 1)
-            {
-                currentPath = Starter.PathFinder.FindPathToRandomPoint(transform.position);
-            }
-            pathIndex = 1;
         }
     }
 }
