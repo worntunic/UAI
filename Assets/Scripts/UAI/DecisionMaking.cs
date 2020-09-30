@@ -13,12 +13,18 @@ namespace UAI.AI
 
         public string Decide(Context context)
         {
+            /*System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+            sw.Start();*/
             List<ActionValue> actionValues = selector.Evaluate(context);
             UnityExtensions.DebugLogEnumerable(actionValues);
+            //sw.Stop();
+            //Debug.Log($"Decision time: {sw.ElapsedMilliseconds}ms");
             return actionValues[0].action;
         }
         public void Init(Context context)
         {
+            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
             _initialized = true;
             context.Init(graphData.context);
 
@@ -70,6 +76,8 @@ namespace UAI.AI
                     }
                 }
             }
+            sw.Stop();
+            Debug.Log($"DecisionInit {sw.ElapsedMilliseconds}ms");
         }
 
     }

@@ -9,7 +9,7 @@ namespace UAI.GeneralAI
     public class Starter : MonoBehaviour
     {
         public MapGenerator mapGenerator;
-        public Plants plants;
+        public PlantSpawner plants;
         public DrinkingWater drinkingWater;
         private static Pathfinding _pathfinder;
         public static Pathfinding PathFinder { get { return _pathfinder; } }
@@ -52,13 +52,13 @@ namespace UAI.GeneralAI
                 foreach (MapNode n in PathFinder.mapGrid.nodes)
                 {
                     Gizmos.color = n.passable ? Color.white : Color.black;
-                    if (PathFinder.path != null && PathFinder.path.Contains(n))
+                    /*if (PathFinder.path != null && PathFinder.path.Contains(n))
                     {
                         Gizmos.color = Color.red;
                         Gizmos.DrawCube(n.worldPoint, Vector3.one * PathFinder.mapInfo.tileScale);
 
-                    }
-                    //Gizmos.DrawCube(n.worldPoint, Vector3.one * PathFinder.mapInfo.tileScale);
+                    }*/
+                    Gizmos.DrawCube(n.worldPoint, Vector3.one * PathFinder.mapInfo.tileScale);
                 }
             }
         }

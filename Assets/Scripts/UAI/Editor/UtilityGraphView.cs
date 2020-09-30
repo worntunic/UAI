@@ -17,7 +17,7 @@ namespace UAI.AI.Edit {
         {
             this.graphData = graphData;
             this.graphDataSerialized = new SerializedObject(graphData);
-
+            Debug.Log("added");
             styleSheets.Add(Resources.Load<StyleSheet>("UAIGraphStylesheet"));
             SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
 
@@ -339,7 +339,7 @@ namespace UAI.AI.Edit {
             NodeWeightedLink nwLink = graphData.qualifiers[qIndex].inLinks[nwIndex];
             SaveGraphData();
             SerializedProperty serNWL = graphDataSerialized
-                                                .FindProperty("qualiScorers")
+                                                .FindProperty("qualifiers")
                                                 .GetArrayElementAtIndex(qIndex)
                                                 .FindPropertyRelative("inLinks")
                                                 .GetArrayElementAtIndex(nwIndex)

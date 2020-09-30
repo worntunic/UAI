@@ -375,7 +375,7 @@ Transform:
   m_GameObject: {fileID: 936134745}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 1, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -494,7 +494,7 @@ MonoBehaviour:
   mapGenerator: {fileID: 1472520239}
   plants: {fileID: 1090230502}
   drinkingWater: {fileID: 34410858}
-  drawPassability: 1
+  drawPassability: 0
 --- !u!1 &1090230501
 GameObject:
   m_ObjectHideFlags: 0
@@ -524,10 +524,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 745eb8007d9b9264a9e704aa6f00bc2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantPrefab: {fileID: 2292682721090982803, guid: 92fc880ecc6993245a3b0e16bec4fa15,
+  plantPrefab: {fileID: 4931140680906637516, guid: 92fc880ecc6993245a3b0e16bec4fa15,
     type: 3}
   plants: []
-  numberOfPlants: 10
+  initialNumberOfPlants: 10
+  timeBetweenSpawnings: 15
 --- !u!4 &1090230503
 Transform:
   m_ObjectHideFlags: 0
@@ -584,6 +585,10 @@ PrefabInstance:
     - target: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
       propertyPath: stats.thirstDropPerSec
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
+      propertyPath: minActionOffsetTime
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5224094135248930542, guid: 3f1de172052bf4643a360066bad534c7,
         type: 3}
@@ -645,6 +650,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bunny
       objectReference: {fileID: 0}
+    - target: {fileID: 5224094135248930543, guid: 3f1de172052bf4643a360066bad534c7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5224094136850199583, guid: 3f1de172052bf4643a360066bad534c7,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -685,6 +695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c4ffd4250891b443924ce295897f211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawPath: 1
   timeBetweenSteps: 0.8
   moveTime: 0.6
   jumpCurve:
@@ -732,6 +743,7 @@ GameObject:
   - component: {fileID: 1472520239}
   - component: {fileID: 1472520238}
   - component: {fileID: 1472520243}
+  - component: {fileID: 1472520240}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -816,6 +828,22 @@ MonoBehaviour:
     seed: Duga
   mapDisplay: {fileID: 1472520238}
   region: {fileID: 11400000, guid: d50f826edc1ecff4fa4f75feda2c7ee7, type: 2}
+--- !u!114 &1472520240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1472520237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 969fa0c7072644e4ea780908c9201f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldPos: {x: -25, y: 0.63583344, z: 25}
+  x: 0
+  y: 0
+  drawByWorldPos: 0
 --- !u!4 &1472520242
 Transform:
   m_ObjectHideFlags: 0
@@ -881,7 +909,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3c23555137e17ad43bcadf76a879c09e, type: 2}
+  - {fileID: 2100000, guid: 56cab4a08deea4840a6aecca9ed76293, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

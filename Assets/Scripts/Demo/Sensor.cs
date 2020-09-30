@@ -5,77 +5,116 @@ using UnityEngine;
 
 namespace UAI.GeneralAI
 {
+    public struct PathInfo
+    {
+        public List<MapNode> path;
+        public bool ValidPath { get => path != null && path.Count > 0; }
+        public int PathLength { get => ValidPath ? path.Count : 0; }
+        public int TileDistance {
+            get
+            {
+                if (ValidPath)
+                {
+                    return Starter.PathFinder.GetTileDistance(path[0], path[path.Count - 1]);
+                }
+                return 0;
+            }
+        }
+        public MapNode Target { get => (ValidPath) ? path[path.Count - 1] : null; }
+        public float DistanceSensorPercent { get; private set; }
+        
+        public PathInfo(List<MapNode> path, int sensorRadius)
+        {
+            this.path = path;
+            DistanceSensorPercent = (path != null && path.Count > 0 && sensorRadius != 0) ? path.Count / sensorRadius : 1;
+        }
+    }
     public class Sensor : MonoBehaviour
     {
         public int radius;
-        public Plants plants;
+        public PlantSpawner plants;
         public DrinkingWater drinkingWater;
 
-        private List<MapNode> GetClosestPlantPath()
+        public PathInfo GetClosestPlantPath(out Plant plant)
         {
+            /*System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+            sw.Start();*/
             int distance = int.MaxValue;
             List<MapNode> retNodes = new List<MapNode>();
-            foreach (GameObject plant in plants.plants)
+            int iterations = 0;
+            plant = null;
+            foreach (Plant curPlant in plants.plants)
             {
-                if (Vector3.Distance(plant.transform.position, transform.position) <= radius)
+                if (Starter.PathFinder.GetTileDistance(curPlant.transform.position, transform.position) <= radius)
                 {
-                    List<MapNode> nodes = Starter.PathFinder.FindPath(transform.position, plant.transform.position);
+                    iterations++;
+                    List<MapNode> nodes = Starter.PathFinder.FindPath(transform.position, curPlant.transform.position);
                     if (nodes.Count > 1 && nodes.Count < distance && nodes[nodes.Count - 1].gCost < radius * 10)
                     {
                         distance = nodes.Count;
                         retNodes = nodes;
+                        plant = curPlant;
                     }
                 }
 
             }
-            return retNodes;
+            //sw.Stop();
+            //Debug.Log($"PlantPath: iterations({iterations}), time({sw.ElapsedMilliseconds}ms)");
+            return new PathInfo(retNodes, radius);
         }
-        public Vector3 GetClosestPlantPoint()
+        public PathInfo GetClosestWaterPath()
         {
-            List<MapNode> nodes = GetClosestPlantPath();
-            return nodes[nodes.Count - 1].worldPoint;
-        }
-        public int GetDistanceToClosestPlant()
-        {
-            return GetClosestPlantPath().Count;
-        }
-        public float GetDistanceToClosestPlantPercent()
-        {
-            return GetDistanceToClosestPlant() / ((float)radius);
-        }
-
-        public List<MapNode> GetClosestWaterPath()
-        {
+            /*System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+            sw.Start();*/
             int distance = int.MaxValue;
             List<MapNode> retNodes = new List<MapNode>();
-
-            foreach (Vector3 waterTile in drinkingWater.drinkingWaterTiles)
+            int iterations = 0;
+            List<MapNode> closeWaterTiles = GetClosestWaterTiles(5);
+            foreach (MapNode waterTile in closeWaterTiles)
             {
-                if (Vector3.Distance(transform.position, waterTile) <= radius)
+                iterations++;
+                List<MapNode> nodes = Starter.PathFinder.FindPath(transform.position, waterTile.worldPoint);
+                if (nodes.Count > 1 && nodes.Count < distance && nodes[nodes.Count - 1].gCost < radius * 10)
                 {
-                    List<MapNode> nodes = Starter.PathFinder.FindPath(transform.position, waterTile);
-                    if (nodes.Count > 1 && nodes.Count < distance && nodes[nodes.Count - 1].gCost < radius * 10)
-                    {
-                        distance = nodes.Count;
-                        retNodes = nodes;
-                    }
+                    distance = nodes.Count;
+                    retNodes = nodes;
                 }
 
             }
-            return retNodes;
+            /*sw.Stop();
+            Debug.Log($"WaterPath: iterations({iterations}), time({sw.ElapsedMilliseconds}ms)");*/
+            return new PathInfo(retNodes, radius);
         }
-        public Vector3 GetClosestWaterPoint()
+
+        private List<MapNode> GetClosestWaterTiles(int count = 1)
         {
-            List<MapNode> nodes = GetClosestWaterPath();
-            return nodes[nodes.Count - 1].worldPoint;
+            MapNode start = Starter.PathFinder.mapGrid.GetFromWorldPos(transform.position);
+            List<MapNode> retList = new List<MapNode>();
+
+            for (int y = 0; y < radius * 2; y++)
+            {
+                int actY = start.y + ( (y % 2) == 0 ? y/2 : - (y/2));
+                for (int x = 0; x < radius * 2; x++)
+                {
+                    if (retList.Count == count)
+                    {
+                        break;
+                    }
+                    int actX = start.x + ((x % 2) == 0 ? x / 2 : -(x / 2));
+                    if (Starter.PathFinder.mapGrid.IsInsideMapEdges(actX, actY))
+                    {
+                        MapNode node = Starter.PathFinder.mapGrid.nodes[actX, actY];
+                        if(IsTileDrinkingWater(actX, actY)) {
+                            retList.Add(node);
+                        }
+                    }
+                }
+            }
+            return retList;
         }
-        public int GetDistanceToClosestWater()
+        private bool IsTileDrinkingWater(int x, int y)
         {
-            return GetClosestWaterPath().Count;
-        }
-        public float GetDistanceToClosestWaterPercent()
-        {
-            return GetDistanceToClosestWater() / ((float)radius);
+            return Starter.PathFinder.mapGrid.mapInfo.GetTileTerrain(x, y).drinkingWater;
         }
     }
 }

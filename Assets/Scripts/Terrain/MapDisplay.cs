@@ -18,7 +18,6 @@ namespace UAI.Demo.Terrain
         public FilterMode textureFilterMode;
         public TerrainMeshSettings tmSettings;
 
-
         public void DrawNoiseMap(MapInfo mapInfo)
         {
             GenerateTexture(mapInfo);
@@ -44,7 +43,7 @@ namespace UAI.Demo.Terrain
         private void Draw2D(int width, int height)
         {
             renderer2D.sharedMaterial.mainTexture = curTexture;
-            renderer2D.transform.localScale = new Vector3(width, 1, height);
+            //renderer2D.transform.localScale = new Vector3(width, 1, height);
             //Camera.main.transform.position = new Vector3(0, 1, (height * (-10)));
             renderer2D.enabled = true;
             renderer3D.enabled = false;

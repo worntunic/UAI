@@ -17,7 +17,7 @@ MonoBehaviour:
     height: 0.05
     color: {r: 0, g: 0.2817108, b: 0.433, a: 1}
     passable: 0
-    drinkingWater: 1
+    drinkingWater: 0
   - name: Shallow Lake
     height: 0.3
     color: {r: 0, g: 0.42375144, b: 0.6509434, a: 1}

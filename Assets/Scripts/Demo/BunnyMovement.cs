@@ -8,7 +8,8 @@ namespace UAI.Demo
 {
     public class BunnyMovement : MonoBehaviour
     {
-        private List<MapNode> currentPath;
+        public bool drawPath = false;
+        private PathInfo currentPath;
         private int pathIndex = 1;
         public float timeBetweenSteps;
         public float moveTime;
@@ -26,11 +27,12 @@ namespace UAI.Demo
             prevPos = transform.position;
             //GetNewPath();
         }
-        public void StartNewMovement(Vector3 target)
+        public void StartNewMovement(PathInfo path)
         {
             movementInProgress = true;
-            currentPath = Starter.PathFinder.FindPath(transform.position, target);
-            if (currentPath.Count <= 1)
+            currentPath = path;
+            stepTimer.Restart();
+            if (!currentPath.ValidPath)
             {
                 movementInProgress = false;
             }
@@ -48,7 +50,7 @@ namespace UAI.Demo
         {
             if (stepTimer.IsTimerDone())
             {
-                MapNode nextNode = currentPath[pathIndex];
+                MapNode nextNode = currentPath.path[pathIndex];
                 transform.rotation = Quaternion.LookRotation(nextNode.worldPoint - transform.position);
                 stepTimer.Restart();
                 pathIndex++;
@@ -56,10 +58,11 @@ namespace UAI.Demo
                 target = nextNode.worldPoint;
                 moveTimer.Restart();
 
-                if (currentPath.Count == pathIndex)
-                {
-                    movementInProgress = false;
-                }
+
+            }
+            if (currentPath.path.Count == pathIndex && moveTimer.IsTimerDone())
+            {
+                movementInProgress = false;
             }
         }
 
@@ -68,6 +71,21 @@ namespace UAI.Demo
             Vector3 pos = Vector3.Lerp(prevPos, target, moveTimer.GetCurrentTimePercent());
             pos.y = pos.y + jumpCurve.Evaluate(moveTimer.GetCurrentTimePercent());
             transform.position = pos;
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (drawPath)
+            {
+                if (currentPath.ValidPath)
+                {
+                    foreach (MapNode node in currentPath.path)
+                    {
+                        Gizmos.color = Color.red;
+                        Gizmos.DrawCube(node.worldPoint, Vector3.one);
+                    }
+                }
+            }
         }
     }
 }

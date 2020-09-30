@@ -20,8 +20,8 @@ namespace UAI.Demo
         {
             UpdateValue($"Thirst", bunny.stats.ThirstPercent);
             UpdateValue($"Hunger", bunny.stats.HungerPercent);
-            UpdateValue($"FoodDistance", bunny.sensor.GetDistanceToClosestPlantPercent());
-            UpdateValue($"WaterDistance", bunny.sensor.GetDistanceToClosestWaterPercent());
+            UpdateValue($"FoodDistance", bunny.sensor.GetClosestPlantPath(out _).DistanceSensorPercent);
+            UpdateValue($"WaterDistance", bunny.sensor.GetClosestWaterPath().DistanceSensorPercent);
         }
     }
 }

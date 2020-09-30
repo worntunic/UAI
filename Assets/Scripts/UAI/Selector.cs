@@ -217,7 +217,7 @@ namespace UAI.AI
                 qts.Add((qualifiers[i], qualifiers[i].Evaluate(context)));
             }
             qts.Sort(delegate ((Qualifier, float) x, (Qualifier, float) y) {
-                return (x.Item2 - y.Item2).RoundOutToInt();
+                return (y.Item2 - x.Item2).RoundOutToInt();
             });
             return qts;
         }

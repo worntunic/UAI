@@ -24,10 +24,9 @@ namespace UAI.GeneralAI
                 }
                 return _thirst;
             }
-            set { _thirst = value; }
+            set { _thirst = Mathf.Clamp(value, minThirst, maxThirst); }
         }
         public float minHunger, maxHunger;
-        public float feedAmount;
         public float _hunger;
         public float Hunger
         {
@@ -40,7 +39,7 @@ namespace UAI.GeneralAI
                 }
                 return _hunger;
             }
-            set { _hunger = value; }
+            set { _hunger = Mathf.Clamp(value, minHunger, maxHunger); }
         }
         public float hungerDropPerSec;
         public float thirstDropPerSec;
@@ -55,9 +54,9 @@ namespace UAI.GeneralAI
         {
             Thirst = Thirst - drinkAmount;
         }
-        public void Feed()
+        public void Feed(int foodAmount)
         {
-            Hunger = Hunger - feedAmount;
+            Hunger = Hunger - foodAmount;
         }
         public float ThirstPercent => Thirst / maxThirst;
         public float HungerPercent => Hunger / maxHunger;
@@ -70,22 +69,30 @@ namespace UAI.GeneralAI
         public BunnyContext bunnyContext;
         public BunnyMovement movement;
         public DecisionMaking bunnyDecider;
-        private string prevAction = "";
+        private string currentActionName = "";
+        public float minActionOffsetTime;
+        private Timer minActionOffsetTimer;
+        Action currentAction = null;
 
         private void Start()
         {
+            minActionOffsetTimer = new Timer(minActionOffsetTime, true, true);
             stats.Init();
             bunnyContext = new BunnyContext(this);
             if (!bunnyDecider.Initialized)
             {
                 bunnyDecider.Init(bunnyContext);
             }
+
         }
         private void Update()
         {
-            if (movement.MovementFinished())
+            if (currentAction != null)
             {
-                
+                currentAction.ExecuteAction();
+            }
+            if (minActionOffsetTimer.IsTimerDone() && (currentAction == null || currentAction.ActionFinished))
+            {
                 CallForNewAction();
             }
         }
@@ -93,30 +100,27 @@ namespace UAI.GeneralAI
         {
             bunnyContext.UpdateContext();
             string actionName = bunnyDecider.Decide(bunnyContext);
-            
-            if(actionName == "GetWater")
+            Action newAction = null;
+            minActionOffsetTimer.Restart();
+
+            if (actionName == "GetWater")
             {
-                Vector3 water = sensor.GetClosestWaterPoint();
-                movement.StartNewMovement(water);
+                 newAction = new DrinkAction(this);
             } else if (actionName == "GetFood")
             {
-                Vector3 food = sensor.GetClosestPlantPoint();
-                movement.StartNewMovement(food);
+                newAction = new FeedAction(this);
             }
-            prevAction = actionName;
-        }
-        private void ResolveFinishedAction()
-        {
-            if (prevAction == "GetWater")
+            if (newAction != null && (currentAction == null || !newAction.CompareAction(currentAction)))
             {
-                stats.Drink();
-            }
-            else if (prevAction == "GetFood")
-            {
-                stats.Feed();
+                if (currentAction != null)
+                {
+                    currentAction.EndAction();
+                }
+                currentAction = newAction;
+                currentActionName = actionName;
+                currentAction.StartAction();
             }
         }
-
     }
 }
 

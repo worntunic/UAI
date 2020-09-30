@@ -2,11 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UAI.Demo.Terrain;
+using UAI.Utils.DataStructures;
 using UnityEngine;
+using System.Diagnostics;
 
 namespace UAI.GeneralAI
 {
-    public class MapNode
+    public class MapNode : IHeapItem<MapNode>
     {
         public Vector3 worldPoint;
         public bool passable;
@@ -16,7 +18,8 @@ namespace UAI.GeneralAI
         public int gCost;
         public int hCost;
         public int fCost { get { return gCost + hCost; } }
-
+        private int _heapIndex;
+        public int HeapIndex { get => _heapIndex; set => _heapIndex = value; }
         public MapNode(int x, int y, Vector3 worldPoint, bool passable)
         {
             this.worldPoint = worldPoint;
@@ -27,15 +30,25 @@ namespace UAI.GeneralAI
             hCost = 0;
         }
 
+        public int CompareTo(MapNode other)
+        {
+            int compare = fCost.CompareTo(other.fCost);
+            if (compare == 0)
+            {
+                compare = hCost.CompareTo(other.hCost);
+            }
+            return -compare;
+        }
     }
     public class MapGrid
     {
         public MapNode[,] nodes;
         public int Width { get { return nodes.GetLength(0); } }
         public int Height { get { return nodes.GetLength(1); } }
-        private Vector2 gridWorldSize;
+        public Vector2 gridWorldSize;
         public MapInfo mapInfo;
-
+        public int TileCount { get { return Width * Height; } }
+        public int mapEdgeWidth = 1;
         public MapGrid(MapInfo mapInfo)
         {
             this.mapInfo = mapInfo;
@@ -45,8 +58,8 @@ namespace UAI.GeneralAI
             {
                 for (int x = 0; x < mapInfo.Width; x++)
                 {
-                    int flippedY = mapInfo.Height - 1 - y;
-                    Vector3 worldPos = new Vector3(1 + mapInfo.tileScale * x - gridWorldSize.x / 2, mapInfo.tiles[x, y].height, mapInfo.tileScale * flippedY - gridWorldSize.y / 2);
+                    int flippedY = mapInfo.Height - y;
+                    Vector3 worldPos = new Vector3(mapInfo.tileScale * x - gridWorldSize.x / 2, mapInfo.tiles[x, y].height, mapInfo.tileScale * flippedY - gridWorldSize.y / 2);
                     nodes[x, y] = new MapNode(x, y, worldPos, mapInfo.GetTileTerrain(x, y).passable);
                 }
             }
@@ -54,11 +67,11 @@ namespace UAI.GeneralAI
 
         public MapNode GetFromWorldPos(Vector3 worldPos)
         {
-            float percentX = Mathf.Clamp01((worldPos.x + (gridWorldSize.x / 2) - 1) / gridWorldSize.x);
+            float percentX = Mathf.Clamp01((worldPos.x + (gridWorldSize.x / 2)) / gridWorldSize.x);
             float percentY = Mathf.Clamp01((worldPos.z + (gridWorldSize.y / 2)) / gridWorldSize.y);
             float flippedPercentY = 1 - percentY;
-            int x = Mathf.RoundToInt((Width - 1) * percentX);
-            int y = Mathf.RoundToInt((Height - 1) * flippedPercentY);
+            int x = Mathf.RoundToInt((Width) * percentX);
+            int y = Mathf.RoundToInt((Height) * flippedPercentY);
             return nodes[x, y];
         }
 
@@ -76,7 +89,7 @@ namespace UAI.GeneralAI
                     }
                     int checkX = node.x + x;
                     int checkY = node.y + y;
-                    if (IsInsideGrid(checkX, checkY))
+                    if (IsInsideMapEdges(checkX, checkY))
                     {
                         neighbours.Add(nodes[checkX, checkY]);
                     }
@@ -85,9 +98,13 @@ namespace UAI.GeneralAI
             return neighbours;
         }
 
-        private bool IsInsideGrid(int x, int y)
+        public bool IsInsideGrid(int x, int y)
         {
             return x >= 0 && x < Width && y >= 0 && y < Height;
+        }
+        public bool IsInsideMapEdges(int x, int y)
+        {
+            return x >= mapEdgeWidth && x < Width - mapEdgeWidth && y >= mapEdgeWidth && y < Height - mapEdgeWidth;
         }
 
         public MapNode GetRandomPassableNode()
@@ -95,7 +112,7 @@ namespace UAI.GeneralAI
             MapNode randomNode = null;
             while (randomNode == null || !randomNode.passable)
             {
-                randomNode = nodes[UnityEngine.Random.Range(0, Width), UnityEngine.Random.Range(0, Height)];
+                randomNode = nodes[UnityEngine.Random.Range(mapEdgeWidth, Width - mapEdgeWidth), UnityEngine.Random.Range(mapEdgeWidth, Height - mapEdgeWidth)];
             }
             return randomNode;
         }
@@ -125,7 +142,9 @@ namespace UAI.GeneralAI
         }
         public List<MapNode> FindPath(Vector3 startPos, Vector3 targetPos)
         {
-            List<MapNode> openSet = new List<MapNode>();
+            /*Stopwatch sw = new Stopwatch();
+            sw.Start();*/
+            Heap<MapNode> openSet = new Heap<MapNode>(mapGrid.TileCount);
             HashSet<MapNode> closedSet = new HashSet<MapNode>();
 
             MapNode start = mapGrid.GetFromWorldPos(startPos);
@@ -137,20 +156,13 @@ namespace UAI.GeneralAI
 
             while (openSet.Count > 0)
             {
-                MapNode current = openSet[0];
-                for (int i = 1; i < openSet.Count; i++)
-                {
-                    if (openSet[i].fCost < current.fCost || openSet[i].fCost == current.fCost && openSet[i].hCost < current.hCost)
-                    {
-                        current = openSet[i];
-                    }
-                }
-
-                openSet.Remove(current);
+                MapNode current = openSet.RemoveFirstItem();
                 closedSet.Add(current);
 
                 if (current == target)
                 {
+                    /*sw.Stop();
+                    UnityEngine.Debug.Log($"{sw.ElapsedTicks}ticks");*/
                     return RetracePath(start, target);
                 }
                 List<MapNode> neighbours = mapGrid.GetNeighbours(current);
@@ -204,6 +216,18 @@ namespace UAI.GeneralAI
             {
                 return dstX * normalMoveCost + (dstY - dstX) * normalMoveCost;
             }
+        }
+        public int GetTileDistance(MapNode nodeA, MapNode nodeB)
+        {
+            int dstX = Mathf.Abs(nodeA.x - nodeB.x);
+            int dstY = Mathf.Abs(nodeA.y - nodeB.y);
+
+
+            return (dstX > dstY) ? dstX : dstY;
+        }
+        public int GetTileDistance(Vector3 worldPointA, Vector3 worldPointB)
+        {
+            return GetTileDistance(mapGrid.GetFromWorldPos(worldPointA), mapGrid.GetFromWorldPos(worldPointB));
         }
     }
 }

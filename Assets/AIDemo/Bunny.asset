@@ -60,12 +60,12 @@ MonoBehaviour:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 0.2
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
+        value: 0
+        inSlope: -1.6130315
+        outSlope: -1.6130315
+        tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0.04108107
         outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -101,7 +101,7 @@ MonoBehaviour:
   - guid: 3f223eb1-95cc-4fbb-a4e0-6303ed9cd295
     position: {x: -28, y: 593}
     nodeType: 0
-    key: Thirst
+    key: FoodDistance
     uFunction:
       serializedVersion: 2
       m_Curve:
@@ -116,12 +116,12 @@ MonoBehaviour:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 0.4
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
+        value: 0
+        inSlope: -1.7481692
+        outSlope: -1.7481692
+        tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0.036756754
         outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -150,7 +150,7 @@ MonoBehaviour:
     - otherNodeID: edee2fbc-8e81-4061-b97d-eafc08e8422d
       weight: 1
     - otherNodeID: 3f223eb1-95cc-4fbb-a4e0-6303ed9cd295
-      weight: 0.9
+      weight: 0.8
     - otherNodeID: 
       weight: 0.5
     actionName: GetFood
