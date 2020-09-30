@@ -63,7 +63,7 @@ namespace UAI.GeneralAI
     }
     public class Bunny : MonoBehaviour
     {
-
+        public string aiGuid = "bunny";
         public Sensor sensor;
         public BunnyStats stats;
         public BunnyContext bunnyContext;
@@ -78,7 +78,7 @@ namespace UAI.GeneralAI
         {
             minActionOffsetTimer = new Timer(minActionOffsetTime, true, true);
             stats.Init();
-            bunnyContext = new BunnyContext(this);
+            bunnyContext = new BunnyContext(this, aiGuid);
             if (!bunnyDecider.Initialized)
             {
                 bunnyDecider.Init(bunnyContext);

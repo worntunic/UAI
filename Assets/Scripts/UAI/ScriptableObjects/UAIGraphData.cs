@@ -14,8 +14,8 @@ namespace UAI.AI
         public List<QualiScorerData> qualiScorers;
         public List<QualifierData> qualifiers;
         public SelectorData selectorData;
+        public string monitorAIGuid;
     }
-
     public enum NodeType { Scorer, Qualiscorer, Qualifier }
     [System.Serializable]
     public class NodeWeightedLink
@@ -38,6 +38,7 @@ namespace UAI.AI
         public Scorer GetScorer()
         {
             Scorer scorer = new Scorer();
+            scorer.guid = guid;
             scorer.key = key;
             scorer.curve = uFunction;
             return scorer;
@@ -52,6 +53,7 @@ namespace UAI.AI
         public QualiScorer GetQualiScorer()
         {
             QualiScorer qScorer = new QualiScorer();
+            qScorer.guid = guid;
             qScorer.type = qualiType;
             qScorer.threshold = threshold;
             return qScorer;
@@ -64,6 +66,7 @@ namespace UAI.AI
         public Qualifier GetQualifier()
         {
             Qualifier qualifier = new Qualifier();
+            qualifier.guid = guid;
             qualifier.type = qualiType;
             qualifier.threshold = threshold;
             qualifier.actionName = actionName;

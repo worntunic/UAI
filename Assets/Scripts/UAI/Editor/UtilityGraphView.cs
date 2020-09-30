@@ -12,12 +12,12 @@ namespace UAI.AI.Edit {
     {
         private UAIGraphData graphData;
         private SerializedObject graphDataSerialized;
+        public Dictionary<string, BaseNode> allNodes;
 
         public UtilityGraphView(UAIGraphData graphData)
         {
             this.graphData = graphData;
             this.graphDataSerialized = new SerializedObject(graphData);
-            Debug.Log("added");
             styleSheets.Add(Resources.Load<StyleSheet>("UAIGraphStylesheet"));
             SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
 
@@ -36,6 +36,7 @@ namespace UAI.AI.Edit {
         }
         private void GenerateNodes()
         {
+            allNodes = new Dictionary<string, BaseNode>();
             for (int i = 0; i < graphData.scorers.Count; i++)
             {
                 CreateScorerNode(i);
@@ -43,6 +44,7 @@ namespace UAI.AI.Edit {
             for (int i = 0; i < graphData.qualiScorers.Count; i++)
             {
                 CreateQualiScorerNode(i);
+
             }
             for (int i = 0; i < graphData.qualifiers.Count; i++)
             {
@@ -50,6 +52,7 @@ namespace UAI.AI.Edit {
             }
             //foreach (Quali)
         }
+
         public void CreateNewScorerNode()
         {
             ScorerData scData = new ScorerData();
@@ -60,13 +63,15 @@ namespace UAI.AI.Edit {
             SaveGraphData();
             CreateScorerNode(graphData.scorers.Count - 1);
         }
-        public void CreateScorerNode(int index)
+        public ScorerNode CreateScorerNode(int index)
         {
             ScorerData scData = graphData.scorers[index];
             SerializedProperty scorerArr = graphDataSerialized.FindProperty("scorers");
             SerializedProperty serScData = scorerArr.GetArrayElementAtIndex(index);
             ScorerNode node = new ScorerNode(scData, serScData, graphData.context.propertyNames);
             this.AddElement(node);
+            this.allNodes.Add(node.guid, node);
+            return node;
         }
         public void CreateNewQualiScorerNode()
         {
@@ -90,6 +95,7 @@ namespace UAI.AI.Edit {
             {
                 AddExistingQualiScorerPort(node, index, i);
             }
+            this.allNodes.Add(node.guid, node);
             return node;
         }
         public void CreateNewQualifierNode()
@@ -115,7 +121,7 @@ namespace UAI.AI.Edit {
             {
                 AddExistingQualifierPort(node, index, i);
             }
-            this.AddElement(node);
+            this.allNodes.Add(node.guid, node);
             return node;
         }
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)

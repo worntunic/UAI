@@ -8,6 +8,7 @@ using System.Diagnostics;
 
 namespace UAI.GeneralAI
 {
+    [System.Serializable]
     public class MapNode : IHeapItem<MapNode>
     {
         public Vector3 worldPoint;

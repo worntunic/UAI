@@ -34,10 +34,12 @@ namespace UAI.AI
         {
             SumOfChildren, AllOrNothing, Fixed, SumIfAboveThreshold
         }
+        public string guid;
         public QualiType type;
         private Func<Context, float> evalMethod;
         public float threshold;
         List<WeightedScorer> weightedScorers;
+        public static event Action<string, string, float> OnEvaluation;
 
         public QualiScorer()
         {
@@ -64,6 +66,7 @@ namespace UAI.AI
         public float Evaluate(Context context)
         {
             float value = evalMethod(context);
+            OnEvaluation?.Invoke(context.aiGuid, guid, value);
             return value;
         }
 

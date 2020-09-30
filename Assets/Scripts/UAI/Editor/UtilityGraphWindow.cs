@@ -15,6 +15,7 @@ namespace UAI.AI.Edit
         private UAIGraphData graphData;
         IntegerField bestNField;
         LimitedFloatField bestPercentField;
+        TextField aiGuidField;
 
         public static void OpenEditorWindow(UAIGraphData graphData)
         {
@@ -51,7 +52,13 @@ namespace UAI.AI.Edit
             toolbar.Add(createQualifierBtn);
 
 
+
             SerializedObject graphSer = new SerializedObject(graphData);
+
+            aiGuidField = new TextField("Monitor AI:");
+            aiGuidField.BindProperty(graphSer.FindProperty("monitorAIGuid"));
+            toolbar.Add(aiGuidField);
+
             EnumField selectorTypeField = new EnumField("Selector Type", graphData.selectorData.selectorType);
             selectorTypeField.BindProperty(graphSer.FindProperty("selectorData").FindPropertyRelative("selectorType"));
             toolbar.Add(selectorTypeField);
@@ -69,6 +76,7 @@ namespace UAI.AI.Edit
             bestPercentField.BindProperty(graphSer.FindProperty("selectorData").FindPropertyRelative("bestPercent"));
             toolbar.Add(bestPercentField);
             SetSelectorFieldsVisibility(graphData.selectorData.selectorType);
+
             rootVisualElement.Add(toolbar);
         }
         private void SetSelectorFieldsVisibility(Selector.SelectorType type)
@@ -109,6 +117,7 @@ namespace UAI.AI.Edit
                 GenerateGraphView();
 
                 GenerateToolbar();
+                SubscribeToEvents();
             }
             
         }
@@ -118,8 +127,26 @@ namespace UAI.AI.Edit
             {
                 graphView.SaveGraphData();
                 rootVisualElement.Remove(graphView);
+                UnsubscribeToEvents();
             }
 
+        }
+        public void SubscribeToEvents()
+        {
+            Scorer.OnEvaluation += OnEvaluation;
+            QualiScorer.OnEvaluation += OnEvaluation;
+        }
+        public void UnsubscribeToEvents()
+        {
+            Scorer.OnEvaluation -= OnEvaluation;
+            QualiScorer.OnEvaluation -= OnEvaluation;
+        }
+        private void OnEvaluation(string aiGuid, string nGuid, float value)
+        {
+            if (graphView != null && aiGuid == aiGuidField.value && graphView.allNodes.ContainsKey(nGuid))
+            {
+                graphView.allNodes[nGuid].SetMonitorValue(value);
+            }
         }
     }
 }

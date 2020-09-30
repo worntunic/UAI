@@ -20,6 +20,8 @@ namespace UAI.AI.Edit
         public System.Type[] AllowedInPorts { get { return _allowedInPorts; } }
         public System.Type[] AllowedOutPorts { get { return _allowedOutPorts; } }
         protected SerializedProperty serData;
+        private Label monitorLabel;
+        private VisualElement monitorProgress;
 
         private void Initialize(SerializedProperty serData)
         {
@@ -30,7 +32,28 @@ namespace UAI.AI.Edit
             AddToClassList("node");
             Rect positionRect = new Rect(position, defaultNodeSize);
             this.SetPosition(positionRect);
+            GenerateMonitorElements();
             SetAllowedPorts();
+        }
+        private void GenerateMonitorElements()
+        {
+
+            VisualElement monitorContainer = new VisualElement();
+            monitorContainer.AddToClassList("monitorContainer");
+
+            monitorLabel = new Label("");
+            monitorLabel.AddToClassList("monitorLabel");
+            monitorContainer.Add(monitorLabel);
+
+            VisualElement monitorProgressContainer = new VisualElement();
+            monitorProgressContainer.AddToClassList("monitorProgressContainer");
+            monitorContainer.Add(monitorProgressContainer);
+
+            monitorProgress = new VisualElement();
+            monitorProgress.AddToClassList("monitorProgress");
+            titleContainer.Add(monitorProgress);
+
+            titleContainer.Add(monitorContainer);
         }
         public BaseNode(SerializedProperty serData)
         {
@@ -67,6 +90,12 @@ namespace UAI.AI.Edit
         public void SavePosition()
         {
             serData.FindPropertyRelative("position").vector2Value = GetPosition().position;
+        }
+        public void SetMonitorValue(float monitorValue)
+        {
+            monitorLabel.text = monitorValue.ToString("n3");
+            monitorProgress.style.width = new StyleLength(new Length(monitorValue * 100, LengthUnit.Percent));
+            monitorProgress.style.backgroundColor = Color.Lerp(Color.red, Color.green, monitorValue);
         }
     }
     public class ScorerNode : BaseNode

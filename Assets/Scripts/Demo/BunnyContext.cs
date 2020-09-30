@@ -11,9 +11,10 @@ namespace UAI.Demo
     {
         public Bunny bunny;
 
-        public BunnyContext(Bunny bunny)
+        public BunnyContext(Bunny bunny, string aiGuid)
         {
             this.bunny = bunny;
+            this.aiGuid = aiGuid;
         }
 
         public override void UpdateContext()
@@ -21,7 +22,8 @@ namespace UAI.Demo
             UpdateValue($"Thirst", bunny.stats.ThirstPercent);
             UpdateValue($"Hunger", bunny.stats.HungerPercent);
             UpdateValue($"FoodDistance", bunny.sensor.GetClosestPlantPath(out _).DistanceSensorPercent);
-            UpdateValue($"WaterDistance", bunny.sensor.GetClosestWaterPath().DistanceSensorPercent);
+            float distance = bunny.sensor.GetClosestWaterPath().DistanceSensorPercent;
+            UpdateValue($"WaterDistance", distance);
         }
     }
 }

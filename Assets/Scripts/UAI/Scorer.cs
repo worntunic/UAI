@@ -10,12 +10,16 @@ namespace UAI.AI
     }
     public class Scorer : IScorable
     {
+        public string guid;
         public AnimationCurve curve;
         public string key;
+        public static event System.Action<string, string, float> OnEvaluation;
 
         public float Evaluate(Context context)
         {
-            return curve.Evaluate(context.GetValue(key));
+            float value = curve.Evaluate(context.GetValue(key));
+            OnEvaluation?.Invoke(context.aiGuid, guid, value);
+            return value;
         }
     }
     

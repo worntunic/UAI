@@ -9,6 +9,7 @@ namespace UAI.AI
     public abstract class Context
     {
         //public List<string> keys = new List<string>();
+        public string aiGuid;
         private Dictionary<string, float> values;
 
         public void Init(ContextSO contextSO)

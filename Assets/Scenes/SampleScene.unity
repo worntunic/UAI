@@ -590,6 +590,10 @@ PrefabInstance:
       propertyPath: minActionOffsetTime
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
+      propertyPath: aiGuid
+      value: bunny1
+      objectReference: {fileID: 0}
     - target: {fileID: 5224094135248930542, guid: 3f1de172052bf4643a360066bad534c7,
         type: 3}
       propertyPath: m_LocalPosition.x
