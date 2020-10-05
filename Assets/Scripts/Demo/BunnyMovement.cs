@@ -19,6 +19,7 @@ namespace UAI.Demo
         private Vector3 target;
         private bool movementInProgress = false;
         public bool MovementFinished() => !movementInProgress;
+        public Bunny bunny;
 
         private void Start()
         {
@@ -26,6 +27,12 @@ namespace UAI.Demo
             moveTimer = new Timer(moveTime, false);
             prevPos = transform.position;
             //GetNewPath();
+        }
+        public void StopMovement()
+        {
+            movementInProgress = false;
+            stepTimer.Stop();
+
         }
         public void StartNewMovement(PathInfo path)
         {
@@ -57,7 +64,7 @@ namespace UAI.Demo
                 prevPos = target;
                 target = nextNode.worldPoint;
                 moveTimer.Restart();
-
+                bunny.stats.MakeStep();
 
             }
             if (currentPath.path.Count == pathIndex && moveTimer.IsTimerDone())

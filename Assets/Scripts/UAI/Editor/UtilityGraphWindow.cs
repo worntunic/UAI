@@ -39,7 +39,7 @@ namespace UAI.AI.Edit
             var toolbar = new Toolbar();
             toolbar.styleSheets.Add(Resources.Load<StyleSheet>("UAIGraphWindowStylesheet"));
 
-            var createScorerBtn = new Button(OnCreateScorerClicked);
+            /*var createScorerBtn = new Button(OnCreateScorerClicked);
             createScorerBtn.text = "Create Scorer";
             toolbar.Add(createScorerBtn);
 
@@ -49,7 +49,7 @@ namespace UAI.AI.Edit
 
             var createQualifierBtn = new Button(OnCreateQualifierClicked);
             createQualifierBtn.text = "Create Qualifier";
-            toolbar.Add(createQualifierBtn);
+            toolbar.Add(createQualifierBtn);*/
 
 
 
@@ -100,15 +100,15 @@ namespace UAI.AI.Edit
         //Events
         private void OnCreateScorerClicked()
         {
-            graphView.CreateNewScorerNode();
+            graphView.CreateNewScorerNode(Vector2.zero);
         }
         private void OnCreateQualiScorerClicked()
         {
-            graphView.CreateNewQualiScorerNode();
+            graphView.CreateNewQualiScorerNode(Vector2.zero);
         }
         private void OnCreateQualifierClicked()
         {
-            graphView.CreateNewQualifierNode();
+            graphView.CreateNewQualifierNode(Vector2.zero);
         }
         private void OnEnable()
         {

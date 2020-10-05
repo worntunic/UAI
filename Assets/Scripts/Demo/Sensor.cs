@@ -48,11 +48,11 @@ namespace UAI.GeneralAI
 
         private void OnDrawGizmos()
         {
-            for (int i = 0; i < drinkingTiles.Count; i++)
+            /*for (int i = 0; i < drinkingTiles.Count; i++)
             {
                 Gizmos.color = Color.cyan;
                 Gizmos.DrawCube(drinkingTiles[i].worldPoint, Vector3.one);
-            }
+            }*/
         }
 
         public PathInfo GetClosestPlantPath(out Plant plant)
@@ -106,6 +106,10 @@ namespace UAI.GeneralAI
             //sw.Stop();
             drinkingWaterPathInfo = new PathInfo(retNodes, radius);
             return drinkingWaterPathInfo;
+        }
+        public PathInfo GetRandomPath()
+        {
+            return new PathInfo(Starter.PathFinder.FindPathToRandomPoint(transform.position), radius);
         }
     }
 }

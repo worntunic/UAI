@@ -32,7 +32,7 @@ namespace UAI.AI
     {
         public enum QualiType
         {
-            SumOfChildren, AllOrNothing, Fixed, SumIfAboveThreshold
+            SumOfChildren, AllOrNothing, Fixed, SumIfAboveThreshold, InvertedSumOfChildren
         }
         public string guid;
         public QualiType type;
@@ -85,6 +85,9 @@ namespace UAI.AI
                     break;
                 case QualiType.SumIfAboveThreshold:
                     evalMethod = EvalSumIfAbove;
+                    break;
+                case QualiType.InvertedSumOfChildren:
+                    evalMethod = EvalInvertedSum;
                     break;
             }
         }
@@ -142,6 +145,9 @@ namespace UAI.AI
             sum /= factorSum;
             return sum;
         }
-
+        public float EvalInvertedSum(Context context)
+        {
+            return 1 - EvalSumOfChildren(context);
+        }
     }
 }

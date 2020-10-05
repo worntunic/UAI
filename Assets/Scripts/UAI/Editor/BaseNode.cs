@@ -176,7 +176,7 @@ namespace UAI.AI.Edit
         }
         protected override void SetAllowedPorts()
         {
-            _allowedInPorts = new System.Type[2] { typeof(ScorerNode), typeof(QualiScorerNode) };
+            _allowedOutPorts = new System.Type[2] { typeof(ScorerNode), typeof(QualiScorerNode) };
         }
         private void DrawFields(QualifierData qData, List<string> actions)
         {

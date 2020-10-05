@@ -126,10 +126,65 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  qualiScorers: []
-  qualifiers:
-  - guid: 96cc93d2-6648-4b9f-b3b8-97ffae6bf1b3
-    position: {x: 430, y: 117}
+  - guid: 35b62529-2b7f-406e-ba2c-81b25fe5e3d0
+    position: {x: 574, y: -92}
+    nodeType: 0
+    key: Fatigue
+    uFunction:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - guid: 048f4fb8-a974-4ce5-8676-dc362924b553
+    position: {x: 595, y: 705}
+    nodeType: 0
+    key: Fatigue
+    uFunction:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  qualiScorers:
+  - guid: e09dd94d-a283-436a-adf5-7537540b9f56
+    position: {x: 375, y: 120}
     nodeType: 0
     qualiType: 0
     threshold: 0
@@ -140,9 +195,8 @@ MonoBehaviour:
       weight: 0.5
     - otherNodeID: 
       weight: 0.5
-    actionName: GetWater
-  - guid: fa9f84c8-5eba-4597-ad9b-698731d0c757
-    position: {x: 425, y: 512}
+  - guid: d82d84c5-7ea1-4fd9-ad95-89604ce55c09
+    position: {x: 359, y: 498}
     nodeType: 0
     qualiType: 0
     threshold: 0
@@ -153,7 +207,69 @@ MonoBehaviour:
       weight: 0.5
     - otherNodeID: 
       weight: 0.5
+  - guid: 4580c822-76cd-4de3-b9fa-dfe90412739e
+    position: {x: 732, y: 321}
+    nodeType: 0
+    qualiType: 4
+    threshold: 0
+    inLinks:
+    - otherNodeID: e09dd94d-a283-436a-adf5-7537540b9f56
+      weight: 1
+    - otherNodeID: d82d84c5-7ea1-4fd9-ad95-89604ce55c09
+      weight: 1
+    - otherNodeID: 
+      weight: 0.5
+  qualifiers:
+  - guid: 96cc93d2-6648-4b9f-b3b8-97ffae6bf1b3
+    position: {x: 1411, y: 102}
+    nodeType: 0
+    qualiType: 0
+    threshold: 0
+    inLinks:
+    - otherNodeID: e09dd94d-a283-436a-adf5-7537540b9f56
+      weight: 1
+    - otherNodeID: 
+      weight: 0.5
+    - otherNodeID: 
+      weight: 0.5
+    actionName: GetWater
+  - guid: fa9f84c8-5eba-4597-ad9b-698731d0c757
+    position: {x: 1347, y: 498}
+    nodeType: 0
+    qualiType: 0
+    threshold: 0
+    inLinks:
+    - otherNodeID: d82d84c5-7ea1-4fd9-ad95-89604ce55c09
+      weight: 1
+    - otherNodeID: 
+      weight: 0.5
+    - otherNodeID: 
+      weight: 0.5
     actionName: GetFood
+  - guid: b6d20544-7984-4834-87cf-c5fa2bf5515f
+    position: {x: 1071, y: -126}
+    nodeType: 0
+    qualiType: 0
+    threshold: 0
+    inLinks:
+    - otherNodeID: 35b62529-2b7f-406e-ba2c-81b25fe5e3d0
+      weight: 1
+    - otherNodeID: 
+      weight: 0.5
+    actionName: Nap
+  - guid: 55f79789-1492-490c-ab4c-4a6222ab1f3c
+    position: {x: 1020, y: 712}
+    nodeType: 0
+    qualiType: 0
+    threshold: 0
+    inLinks:
+    - otherNodeID: 4580c822-76cd-4de3-b9fa-dfe90412739e
+      weight: 1
+    - otherNodeID: 048f4fb8-a974-4ce5-8676-dc362924b553
+      weight: 0.8
+    - otherNodeID: 
+      weight: 0.5
+    actionName: Wander
   selectorData:
     selectorType: 0
     bestPercent: 0

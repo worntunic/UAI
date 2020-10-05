@@ -13,6 +13,8 @@ namespace UAI.AI.Edit {
         private UAIGraphData graphData;
         private SerializedObject graphDataSerialized;
         public Dictionary<string, BaseNode> allNodes;
+        private List<QualifierNode> qualifierNodes = new List<QualifierNode>();
+        int currentQualifier = 0;
 
         public UtilityGraphView(UAIGraphData graphData)
         {
@@ -33,6 +35,39 @@ namespace UAI.AI.Edit {
 
             GenerateNodes();
             graphViewChanged = OnGraphViewChanged;
+
+            RegisterCallback<KeyDownEvent>(OnTabEvent);
+        }
+        private void OnTabEvent(KeyDownEvent ev)
+        {
+            if (qualifierNodes.Count > 0 && ev.keyCode == KeyCode.Tab)
+            {
+                if (ev.shiftKey)
+                {
+                    currentQualifier = (currentQualifier - 1) < 0 ? qualifierNodes.Count - 1 : currentQualifier - 1;
+                } else
+                {
+                    currentQualifier = (currentQualifier + 1) >= qualifierNodes.Count ? 0 : currentQualifier + 1;
+                }
+                qualifierNodes[currentQualifier].Select(this, false);
+                FrameSelection();
+                //UpdateViewTransform(qualifierNodes[currentQualifier].GetPosition().position, transform.scale);
+            }
+        }
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+        {
+            base.BuildContextualMenu(evt);
+            
+            if (evt.target is GraphView || evt.target is Node)
+            {
+                
+                Vector3 pos = evt.mousePosition / scale;
+                pos -= viewTransform.position / scale;
+                evt.menu.AppendAction("Add Scorer", (e) => { CreateNewScorerNode(pos) ; });
+                evt.menu.AppendAction("Add QualiScorer", (e) => { CreateNewQualiScorerNode(pos); });
+                evt.menu.AppendAction("Add Qualifier", (e) => { CreateNewQualifierNode(pos); });
+
+            }
         }
         private void GenerateNodes()
         {
@@ -53,10 +88,10 @@ namespace UAI.AI.Edit {
             //foreach (Quali)
         }
 
-        public void CreateNewScorerNode()
+        public void CreateNewScorerNode(Vector2 position)
         {
             ScorerData scData = new ScorerData();
-            scData.position = Vector2.zero;
+            scData.position = position;
             scData.guid = Guid.NewGuid().ToString();
             scData.key = graphData.context.propertyNames[0];
             graphData.scorers.Add(scData);
@@ -73,10 +108,10 @@ namespace UAI.AI.Edit {
             this.allNodes.Add(node.guid, node);
             return node;
         }
-        public void CreateNewQualiScorerNode()
+        public void CreateNewQualiScorerNode(Vector2 position)
         {
             QualiScorerData qsData = new QualiScorerData();
-            qsData.position = Vector2.zero;
+            qsData.position = position;
             qsData.guid = Guid.NewGuid().ToString();
             graphData.qualiScorers.Add(qsData);
             SaveGraphData();
@@ -98,10 +133,10 @@ namespace UAI.AI.Edit {
             this.allNodes.Add(node.guid, node);
             return node;
         }
-        public void CreateNewQualifierNode()
+        public void CreateNewQualifierNode(Vector2 position)
         {
             QualifierData qData = new QualifierData();
-            qData.position = Vector2.zero;
+            qData.position = position;
             qData.guid = Guid.NewGuid().ToString();
             qData.actionName = graphData.context.actionNames[0];
             graphData.qualifiers.Add(qData);
@@ -122,6 +157,7 @@ namespace UAI.AI.Edit {
                 AddExistingQualifierPort(node, index, i);
             }
             this.allNodes.Add(node.guid, node);
+            qualifierNodes.Add(node);
             return node;
         }
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)

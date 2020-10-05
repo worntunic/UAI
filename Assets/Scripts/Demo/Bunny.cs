@@ -43,6 +43,11 @@ namespace UAI.GeneralAI
         }
         public float hungerDropPerSec;
         public float thirstDropPerSec;
+        public float _fatigue;
+        public float Fatigue { get => _fatigue; set => _fatigue = Mathf.Clamp(value, minFatigue, maxFatigue); }
+        public float minFatigue, maxFatigue;
+        public float fatigueDropPerStep;
+
         private Timer hungerDropTimer, thirstDropTimer;
 
         public void Init()
@@ -58,8 +63,17 @@ namespace UAI.GeneralAI
         {
             Hunger = Hunger - foodAmount;
         }
+        public void MakeStep()
+        {
+            Fatigue += fatigueDropPerStep;
+        }
+        public void Rest(float restAmount)
+        {
+            Fatigue -= restAmount;
+        }
         public float ThirstPercent => Thirst / maxThirst;
         public float HungerPercent => Hunger / maxHunger;
+        public float FatiguePercent => Fatigue / maxFatigue;
     }
     public class Bunny : MonoBehaviour
     {
@@ -69,6 +83,7 @@ namespace UAI.GeneralAI
         public BunnyContext bunnyContext;
         public BunnyMovement movement;
         public DecisionMaking bunnyDecider;
+        public BunnyBubble bubble;
         private string currentActionName = "";
         public float minActionOffsetTime;
         private Timer minActionOffsetTimer;
@@ -109,6 +124,12 @@ namespace UAI.GeneralAI
             } else if (actionName == "GetFood")
             {
                 newAction = new FeedAction(this);
+            } else if (actionName == "Nap")
+            {
+                newAction = new NapAction(this);
+            } else if (actionName == "Wander")
+            {
+                newAction = new WanderAction(this);
             }
             if (newAction != null && (currentAction == null || !newAction.CompareAction(currentAction)))
             {
@@ -119,6 +140,7 @@ namespace UAI.GeneralAI
                 currentAction = newAction;
                 currentActionName = actionName;
                 currentAction.StartAction();
+                bubble.SetImage(currentActionName);
             }
         }
     }

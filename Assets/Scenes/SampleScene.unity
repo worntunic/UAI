@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 586a53614f64c9a4bb54b9aa0f77a60f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drinkingWaterTiles: []
+  tilesToDrink: []
 --- !u!4 &34410859
 Transform:
   m_ObjectHideFlags: 0
@@ -209,6 +209,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &461722439 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4248650965146600181, guid: 3f1de172052bf4643a360066bad534c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1147202910}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e8e29444bd3ff643998e22605f66023, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,6 +606,33 @@ PrefabInstance:
       propertyPath: aiGuid
       value: bunny1
       objectReference: {fileID: 0}
+    - target: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
+      propertyPath: bubble
+      value: 
+      objectReference: {fileID: 461722439}
+    - target: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
+      propertyPath: stats.maxFatigue
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
+      propertyPath: stats.fatigueDropPerStep
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2868067707225075249, guid: 3f1de172052bf4643a360066bad534c7,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2868067707225075249, guid: 3f1de172052bf4643a360066bad534c7,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2868067707225075249, guid: 3f1de172052bf4643a360066bad534c7,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5224094135248930542, guid: 3f1de172052bf4643a360066bad534c7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -687,6 +726,9 @@ MonoBehaviour:
   radius: 10
   plants: {fileID: 1090230502}
   drinkingWater: {fileID: 34410858}
+  drinkingWaterPathInfo:
+    path: []
+  drinkingTiles: []
 --- !u!114 &1203927373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -735,6 +777,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  bunny: {fileID: 1203927375}
+--- !u!114 &1203927375 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1147202910}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203927371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf353677b46c7a74a9e43b9117b56c64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1472520237
 GameObject:
   m_ObjectHideFlags: 0
@@ -844,7 +899,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 969fa0c7072644e4ea780908c9201f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldPos: {x: -25, y: 0.63583344, z: 25}
+  worldPos: {x: -25, y: 1, z: 25}
   x: 0
   y: 0
   drawByWorldPos: 0

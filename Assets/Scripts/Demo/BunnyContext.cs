@@ -24,6 +24,7 @@ namespace UAI.Demo
             UpdateValue($"FoodDistance", bunny.sensor.GetClosestPlantPath(out _).DistanceSensorPercent);
             float distance = bunny.sensor.GetClosestWaterPath().DistanceSensorPercent;
             UpdateValue($"WaterDistance", distance);
+            UpdateValue($"Fatigue", bunny.stats.FatiguePercent);
         }
     }
 }
