@@ -40,7 +40,7 @@ namespace UAI.Demo
         }
         public override bool CompareAction(Action otherAction)
         {
-            return base.CompareAction(otherAction) /*&& wanderPath.Target == ((WanderAction)otherAction).wanderPath.Target*/;
+            return base.CompareAction(otherAction) && ActionFinished == ((WanderAction)otherAction).ActionFinished;
         }
     }
 }

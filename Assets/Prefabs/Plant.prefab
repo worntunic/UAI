@@ -47,7 +47,7 @@ MonoBehaviour:
   maxTimesToEat: 5
   currentTimesAte: 0
   plantSpawner: {fileID: 0}
-  foodAmount: 20
+  foodAmount: 40
 --- !u!1001 &7369982453386057607
 PrefabInstance:
   m_ObjectHideFlags: 0

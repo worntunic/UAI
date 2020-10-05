@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UAI.AI;
 using UAI.Demo;
+using UAI.GeneralAI;
 using UAI.Utils;
 using UnityEngine;
 
-namespace UAI.GeneralAI
+namespace UAI.Demo
 {
     [System.Serializable]
     public class BunnyStats
@@ -94,10 +95,7 @@ namespace UAI.GeneralAI
             minActionOffsetTimer = new Timer(minActionOffsetTime, true, true);
             stats.Init();
             bunnyContext = new BunnyContext(this, aiGuid);
-            if (!bunnyDecider.Initialized)
-            {
-                bunnyDecider.Init(bunnyContext);
-            }
+            bunnyDecider.Init(bunnyContext);
 
         }
         private void Update()

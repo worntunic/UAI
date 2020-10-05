@@ -25,6 +25,7 @@ namespace UAI.Demo
         {
             stepTimer = new Timer(timeBetweenSteps, true);
             moveTimer = new Timer(moveTime, false);
+            target = transform.position;
             prevPos = transform.position;
             //GetNewPath();
         }
@@ -39,7 +40,7 @@ namespace UAI.Demo
             movementInProgress = true;
             currentPath = path;
             stepTimer.Restart();
-            if (!currentPath.ValidPath)
+            if (!currentPath.ValidPath || currentPath.path.Count == 1)
             {
                 movementInProgress = false;
             }

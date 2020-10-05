@@ -11,6 +11,7 @@ namespace UAI.GeneralAI
         public MapGenerator mapGenerator;
         public PlantSpawner plants;
         public DrinkingWater drinkingWater;
+        public BunnySpawner bunnySpawner;
         private static Pathfinding _pathfinder;
         public static Pathfinding PathFinder { get { return _pathfinder; } }
         public bool drawPassability = true;
@@ -20,8 +21,10 @@ namespace UAI.GeneralAI
             mapGenerator.GenerateMap();
             _pathfinder = new Pathfinding();
             _pathfinder.AssignMap(mapGenerator.MapInfo);
-            plants.Init(_pathfinder.mapGrid);
+            bunnySpawner.Init();
             drinkingWater.Init(_pathfinder.mapGrid);
+            plants.Init(_pathfinder.mapGrid);
+
         }
 
         /*private void OnEnable()

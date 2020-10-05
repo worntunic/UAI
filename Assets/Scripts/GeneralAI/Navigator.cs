@@ -46,6 +46,10 @@ namespace UAI.GeneralAI
         public MapNode[,] nodes;
         public int Width { get { return nodes.GetLength(0); } }
         public int Height { get { return nodes.GetLength(1); } }
+        public int BottomEdge { get => mapEdgeWidth; }
+        public int TopEdge { get => Height - mapEdgeWidth; }
+        public int LeftEdge { get => mapEdgeWidth; }
+        public int RightEdge { get => Width - mapEdgeWidth; }
         public Vector2 gridWorldSize;
         public MapInfo mapInfo;
         public int TileCount { get { return Width * Height; } }

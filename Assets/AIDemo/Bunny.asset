@@ -221,7 +221,7 @@ MonoBehaviour:
       weight: 0.5
   qualifiers:
   - guid: 96cc93d2-6648-4b9f-b3b8-97ffae6bf1b3
-    position: {x: 1411, y: 102}
+    position: {x: 1439, y: 276}
     nodeType: 0
     qualiType: 0
     threshold: 0
@@ -234,7 +234,7 @@ MonoBehaviour:
       weight: 0.5
     actionName: GetWater
   - guid: fa9f84c8-5eba-4597-ad9b-698731d0c757
-    position: {x: 1347, y: 498}
+    position: {x: 1433, y: 489}
     nodeType: 0
     qualiType: 0
     threshold: 0
@@ -247,7 +247,7 @@ MonoBehaviour:
       weight: 0.5
     actionName: GetFood
   - guid: b6d20544-7984-4834-87cf-c5fa2bf5515f
-    position: {x: 1071, y: -126}
+    position: {x: 1450, y: 88}
     nodeType: 0
     qualiType: 0
     threshold: 0
@@ -258,15 +258,15 @@ MonoBehaviour:
       weight: 0.5
     actionName: Nap
   - guid: 55f79789-1492-490c-ab4c-4a6222ab1f3c
-    position: {x: 1020, y: 712}
+    position: {x: 1413, y: 693}
     nodeType: 0
     qualiType: 0
     threshold: 0
     inLinks:
     - otherNodeID: 4580c822-76cd-4de3-b9fa-dfe90412739e
-      weight: 1
-    - otherNodeID: 048f4fb8-a974-4ce5-8676-dc362924b553
       weight: 0.8
+    - otherNodeID: 048f4fb8-a974-4ce5-8676-dc362924b553
+      weight: 0.7
     - otherNodeID: 
       weight: 0.5
     actionName: Wander
@@ -274,4 +274,4 @@ MonoBehaviour:
     selectorType: 0
     bestPercent: 0
     bestN: 0
-  monitorAIGuid: bunny1
+  monitorAIGuid: bunny2

@@ -163,7 +163,56 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &54760079
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 54760081}
+  - component: {fileID: 54760080}
+  m_Layer: 0
+  m_Name: Bunnies
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &54760080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 54760079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78721757c3546134e8077cb83cea6f57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
+  initialBunnyNumber: 20
+  bunnies: []
+  bunnyDecider: {fileID: 335821256}
+  plantSpawner: {fileID: 1090230502}
+  drinkingWater: {fileID: 34410858}
+--- !u!4 &54760081
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 54760079}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &335821255
 GameObject:
@@ -207,20 +256,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &461722439 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4248650965146600181, guid: 3f1de172052bf4643a360066bad534c7,
-    type: 3}
-  m_PrefabInstance: {fileID: 1147202910}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e8e29444bd3ff643998e22605f66023, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,6 +350,50 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -173.78, z: 0}
+--- !u!1 &767343450
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 767343452}
+  - component: {fileID: 767343451}
+  m_Layer: 0
+  m_Name: PlantDecider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &767343451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767343450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 861e85977677e8240a147a506e62fbed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  graphData: {fileID: 11400000, guid: c8a229fbaeb60f242a8e6ed78bb0c9ca, type: 2}
+--- !u!4 &767343452
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767343450}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &936134745
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,6 +587,7 @@ MonoBehaviour:
   mapGenerator: {fileID: 1472520239}
   plants: {fileID: 1090230502}
   drinkingWater: {fileID: 34410858}
+  bunnySpawner: {fileID: 54760080}
   drawPassability: 0
 --- !u!1 &1090230501
 GameObject:
@@ -539,8 +621,13 @@ MonoBehaviour:
   plantPrefab: {fileID: 4931140680906637516, guid: 92fc880ecc6993245a3b0e16bec4fa15,
     type: 3}
   plants: []
-  initialNumberOfPlants: 10
-  timeBetweenSpawnings: 15
+  initialNumberOfPlants: 5
+  timeBetweenSpawnings: 2
+  water: {fileID: 34410858}
+  aiGuid: plantSpawner
+  plantDecisionMaking: {fileID: 767343451}
+  bunnySpawner: {fileID: 54760080}
+  scanSpread: 11
 --- !u!4 &1090230503
 Transform:
   m_ObjectHideFlags: 0
@@ -553,243 +640,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1147202910
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
-      propertyPath: sensor
-      value: 
-      objectReference: {fileID: 1203927372}
-    - target: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
-      propertyPath: movement
-      value: 
-      objectReference: {fileID: 1203927373}
-    - target: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
-      propertyPath: bunnyDecider
-      value: 
-      objectReference: {fileID: 335821256}
-    - target: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
-      propertyPath: stats.maxThirst
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
-      propertyPath: stats.drinkAmount
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
-      propertyPath: stats.maxHunger
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
-      propertyPath: stats.feedAmount
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
-      propertyPath: stats.hungerDropPerSec
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
-      propertyPath: stats.thirstDropPerSec
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
-      propertyPath: minActionOffsetTime
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
-      propertyPath: aiGuid
-      value: bunny1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
-      propertyPath: bubble
-      value: 
-      objectReference: {fileID: 461722439}
-    - target: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
-      propertyPath: stats.maxFatigue
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
-      propertyPath: stats.fatigueDropPerStep
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2868067707225075249, guid: 3f1de172052bf4643a360066bad534c7,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2868067707225075249, guid: 3f1de172052bf4643a360066bad534c7,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2868067707225075249, guid: 3f1de172052bf4643a360066bad534c7,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5224094135248930542, guid: 3f1de172052bf4643a360066bad534c7,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5224094135248930542, guid: 3f1de172052bf4643a360066bad534c7,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5224094135248930542, guid: 3f1de172052bf4643a360066bad534c7,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5224094135248930542, guid: 3f1de172052bf4643a360066bad534c7,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5224094135248930542, guid: 3f1de172052bf4643a360066bad534c7,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5224094135248930542, guid: 3f1de172052bf4643a360066bad534c7,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5224094135248930542, guid: 3f1de172052bf4643a360066bad534c7,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5224094135248930542, guid: 3f1de172052bf4643a360066bad534c7,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5224094135248930542, guid: 3f1de172052bf4643a360066bad534c7,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5224094135248930542, guid: 3f1de172052bf4643a360066bad534c7,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5224094135248930542, guid: 3f1de172052bf4643a360066bad534c7,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5224094135248930543, guid: 3f1de172052bf4643a360066bad534c7,
-        type: 3}
-      propertyPath: m_Name
-      value: Bunny
-      objectReference: {fileID: 0}
-    - target: {fileID: 5224094135248930543, guid: 3f1de172052bf4643a360066bad534c7,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5224094136850199583, guid: 3f1de172052bf4643a360066bad534c7,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
---- !u!1 &1203927371 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5224094135248930543, guid: 3f1de172052bf4643a360066bad534c7,
-    type: 3}
-  m_PrefabInstance: {fileID: 1147202910}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1203927372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1203927371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e578bd090a7c0a4eb3484ddc3ec6764, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 10
-  plants: {fileID: 1090230502}
-  drinkingWater: {fileID: 34410858}
-  drinkingWaterPathInfo:
-    path: []
-  drinkingTiles: []
---- !u!114 &1203927373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1203927371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c4ffd4250891b443924ce295897f211, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  drawPath: 1
-  timeBetweenSteps: 0.8
-  moveTime: 0.6
-  jumpCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5
-      value: 2
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  bunny: {fileID: 1203927375}
---- !u!114 &1203927375 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7,
-    type: 3}
-  m_PrefabInstance: {fileID: 1147202910}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1203927371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf353677b46c7a74a9e43b9117b56c64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1472520237
 GameObject:
   m_ObjectHideFlags: 0
@@ -844,10 +696,19 @@ MonoBehaviour:
         outWeight: 0.37405404
       - serializedVersion: 3
         time: 0.3
-        value: 1
+        value: 0.5983925
         inSlope: Infinity
         outSlope: Infinity
         tangentMode: 103
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.8
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 7
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
@@ -899,7 +760,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 969fa0c7072644e4ea780908c9201f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldPos: {x: -25, y: 1, z: 25}
+  worldPos: {x: -25, y: 0.5983925, z: 25}
   x: 0
   y: 0
   drawByWorldPos: 0

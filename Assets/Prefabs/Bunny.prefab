@@ -184,7 +184,7 @@ Transform:
   m_GameObject: {fileID: 2659771713951941063}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 1400599922087203882}
   - {fileID: 5190573208823544229}
@@ -304,6 +304,8 @@ GameObject:
   - component: {fileID: 5224094135248930542}
   - component: {fileID: 1203927372}
   - component: {fileID: 2427803768031995282}
+  - component: {fileID: 5351116118302834168}
+  - component: {fileID: 1203927373}
   m_Layer: 0
   m_Name: Bunny
   m_TagString: Untagged
@@ -339,25 +341,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf353677b46c7a74a9e43b9117b56c64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aiGuid: bunny
-  sensor: {fileID: 0}
+  aiGuid: bunny1
+  sensor: {fileID: 5351116118302834168}
   stats:
     minThirst: 0
-    maxThirst: 0
-    drinkAmount: 0
+    maxThirst: 100
+    drinkAmount: 30
     _thirst: 0
     minHunger: 0
-    maxHunger: 0
+    maxHunger: 100
     _hunger: 0
-    hungerDropPerSec: 0
-    thirstDropPerSec: 0
+    hungerDropPerSec: 5
+    thirstDropPerSec: 5
     _fatigue: 0
     minFatigue: 0
-    maxFatigue: 0
-    fatigueDropPerStep: 0
-  movement: {fileID: 0}
+    maxFatigue: 100
+    fatigueDropPerStep: 2
+  movement: {fileID: 1203927373}
   bunnyDecider: {fileID: 0}
-  minActionOffsetTime: 0
+  bubble: {fileID: 4248650965146600181}
+  minActionOffsetTime: 1.5
 --- !u!65 &2427803768031995282
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -371,6 +374,73 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &5351116118302834168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5224094135248930543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e578bd090a7c0a4eb3484ddc3ec6764, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 10
+  plants: {fileID: 0}
+  drinkingWater: {fileID: 0}
+  drinkingWaterPathInfo:
+    path: []
+  drinkingTiles: []
+--- !u!114 &1203927373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5224094135248930543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c4ffd4250891b443924ce295897f211, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drawPath: 1
+  timeBetweenSteps: 0.8
+  moveTime: 0.6
+  jumpCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5
+      value: 2
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  bunny: {fileID: 1203927372}
 --- !u!1 &5224094136850199571
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,7 +467,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5224094136850199571}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.053}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5224094135248930542}
