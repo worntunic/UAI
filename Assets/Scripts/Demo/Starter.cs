@@ -61,6 +61,7 @@ namespace UAI.GeneralAI
                         Gizmos.DrawCube(n.worldPoint, Vector3.one * PathFinder.mapInfo.tileScale);
 
                     }*/
+                    if (n.passable)
                     Gizmos.DrawCube(n.worldPoint, Vector3.one * PathFinder.mapInfo.tileScale);
                 }
             }

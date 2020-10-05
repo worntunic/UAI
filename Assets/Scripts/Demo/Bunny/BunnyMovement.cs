@@ -58,15 +58,17 @@ namespace UAI.Demo
         {
             if (stepTimer.IsTimerDone())
             {
-                MapNode nextNode = currentPath.path[pathIndex];
-                transform.rotation = Quaternion.LookRotation(nextNode.worldPoint - transform.position);
-                stepTimer.Restart();
-                pathIndex++;
-                prevPos = target;
-                target = nextNode.worldPoint;
-                moveTimer.Restart();
-                bunny.stats.MakeStep();
-
+                if (currentPath.path.Count > pathIndex)
+                {
+                    MapNode nextNode = currentPath.path[pathIndex];
+                    transform.rotation = Quaternion.LookRotation(nextNode.worldPoint - transform.position);
+                    stepTimer.Restart();
+                    pathIndex++;
+                    prevPos = target;
+                    target = nextNode.worldPoint;
+                    moveTimer.Restart();
+                    bunny.stats.MakeStep();
+                }
             }
             if (currentPath.path.Count == pathIndex && moveTimer.IsTimerDone())
             {
