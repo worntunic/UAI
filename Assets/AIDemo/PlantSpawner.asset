@@ -80,7 +80,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   - guid: e43ee1c3-326f-4a0f-b14a-51ec700c0110
-    position: {x: -222, y: 399}
+    position: {x: -714, y: 396}
     nodeType: 0
     key: TileHeight
     uFunction:
@@ -108,7 +108,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   - guid: c413b40b-75ff-4f38-ae66-18a561c0c6b2
-    position: {x: -144, y: 534}
+    position: {x: -224, y: 386}
     nodeType: 0
     key: PlantDistance
     uFunction:
