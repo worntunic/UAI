@@ -195,7 +195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 1203927372, guid: 3f1de172052bf4643a360066bad534c7, type: 3}
-  initialBunnyNumber: 20
+  initialBunnyNumber: 1
   bunnies: []
   bunnyDecider: {fileID: 335821256}
   plantSpawner: {fileID: 1090230502}

@@ -127,7 +127,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   - guid: 35b62529-2b7f-406e-ba2c-81b25fe5e3d0
-    position: {x: 1102, y: 99}
+    position: {x: 1095, y: 135}
     nodeType: 0
     key: Fatigue
     uFunction:
@@ -155,7 +155,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   - guid: 048f4fb8-a974-4ce5-8676-dc362924b553
-    position: {x: 783, y: 776}
+    position: {x: 767, y: 893}
     nodeType: 0
     key: Fatigue
     uFunction:
@@ -207,8 +207,8 @@ MonoBehaviour:
       weight: 0.5
     - otherNodeID: 
       weight: 0.5
-  - guid: 4580c822-76cd-4de3-b9fa-dfe90412739e
-    position: {x: 716, y: 547}
+  - guid: 18e6ddf5-a4fa-4334-9927-8ec3f581e2f6
+    position: {x: 760, y: 582}
     nodeType: 0
     qualiType: 4
     threshold: 0
@@ -234,7 +234,7 @@ MonoBehaviour:
       weight: 0.5
     actionName: GetWater
   - guid: fa9f84c8-5eba-4597-ad9b-698731d0c757
-    position: {x: 1386, y: 895}
+    position: {x: 1423, y: 897}
     nodeType: 0
     qualiType: 0
     threshold: 0
@@ -247,7 +247,7 @@ MonoBehaviour:
       weight: 0.5
     actionName: GetFood
   - guid: b6d20544-7984-4834-87cf-c5fa2bf5515f
-    position: {x: 1408, y: 87}
+    position: {x: 1424, y: 277}
     nodeType: 0
     qualiType: 0
     threshold: 0
@@ -258,12 +258,12 @@ MonoBehaviour:
       weight: 0.5
     actionName: Nap
   - guid: 55f79789-1492-490c-ab4c-4a6222ab1f3c
-    position: {x: 1385, y: 675}
+    position: {x: 1428, y: 684}
     nodeType: 0
     qualiType: 0
     threshold: 0
     inLinks:
-    - otherNodeID: 4580c822-76cd-4de3-b9fa-dfe90412739e
+    - otherNodeID: 18e6ddf5-a4fa-4334-9927-8ec3f581e2f6
       weight: 0.8
     - otherNodeID: 048f4fb8-a974-4ce5-8676-dc362924b553
       weight: 0.7
@@ -271,7 +271,7 @@ MonoBehaviour:
       weight: 0.5
     actionName: Wander
   selectorData:
-    selectorType: 4
+    selectorType: 3
     bestPercent: 0.42
     bestN: 0
   monitorAIGuid: bunny0
