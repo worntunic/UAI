@@ -6,7 +6,7 @@ This system is only for the decision making part of the AI.
 ## How to install
 Well this is a package. If this is on github there should be a package in the releases I guess.
 
-##How to use
+## How to use
 ### Necessary files
 For your agent you'll need to create 2 scriptable objects:
 
@@ -15,7 +15,7 @@ For your agent you'll need to create 2 scriptable objects:
 
 ### Using Utility AI Editor
 
-####Creating nodes
+#### Creating nodes
 Right clicking the graph editor will pop up the context menu, which gives you options to add Scorers, QualiScorers and Qualifiers.
 - Scorer node is the basic input of the UAI. When added, you can edit its 2 options:
     1. key - Agent's property that will be used as an input 
@@ -27,14 +27,14 @@ Right clicking the graph editor will pop up the context menu, which gives you op
 
 Selector node isn't shown in the UAI editor because every UAI system must have one and only one. Selector options (selection type) can be chosen from the top of the editor window, from the toolbar. 
 
-#####Handy editor tools
+##### Handy editor tools
 - You can select multiple nodes.
 - You can move nodes by dragging them
 - You can delete nodes and connections by selecting them, then pressing delete or through the context menu
 - You can zoom in and out with the scroll wheel
 - By pressing tab/shift+tab editor window is centered on the next/previous qualifier node
 
-###Connecting it to your agent
+#### Connecting it to your agent
 To connect the system to your agent, you'll need to inherit from abstract class `UAI.AI.Context`. Here you should override the method `UpdateContext()`. This method should update all the input values of your agent by calling the method `UpdateValue(string key, float value)`. Note: Values should be in 0.0 - 1.0 range. If you'd like to use UAI debugging, you should set the aiGuid property of the Context. Example:
 
 ```
@@ -77,10 +77,10 @@ string newActionName = bunnyDecider.Decide(bunnyContext);
 
 ## How does it work
 
-###Simply:
+### Simply:
 For each agent you'll define some needs, properties or states as inputs and you'll define how agent perceives each action's utility based on some of those inputs. Comparing the utility values for each action determines the action that the agent should take.
 
-###In-depthly:
+### In-depthly:
 AI agent's UAI system has needs as input and utility values for each action as the output. The Utility system is a graph like set where all of the inputs go from Scorer nodes, to QualiScorer or Qualifier nodes, which represent a single action.
 
 1. Scorer node - It represents a single input into the system. Input value is gathered from the context based on the key (string) property of this Scorer. That value is that parsed through uFunction (AnimationCurve) to get the output value of the Scorer. It provides float value as an output (0.0 - 1.0).
