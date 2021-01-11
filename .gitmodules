@@ -1,0 +1,3 @@
+[submodule "Assets/UAI"]
+	path = Assets/UAI
+	url = https://github.com/worntunic/uai-package
