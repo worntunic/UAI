@@ -3,12 +3,10 @@ Simple utility system for designing AI agents with a visual node-like tool.
 Aim of the UAI is to give game designers and AI designers more control when creating AI, especially during the tweaking phase.
 This system is only for the decision making part of the AI.
 
-This is a development git - for the package git page, go to https://github.com/worntunic/uai-package
-
 ## How to install
 1. In Unity, open Package Manager.
 2. Click the little '+' icon in the top left and then "Add package from git URL..."
-3. Copy and paste https://github.com/worntunic/uai-package.git into the text box and click "Add"
+3. Copy and paste "https://github.com/worntunic/uai-package" into the text box and click "Add"
 
 ## How to use
 ### Necessary files
