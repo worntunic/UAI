@@ -216,10 +216,10 @@ namespace UAI.GeneralAI
 
             if (dstX > dstY)
             {
-                return dstY * normalMoveCost + (dstX - dstY) * normalMoveCost;
+                return dstY * diagonalMoveCost + (dstX - dstY) * normalMoveCost;
             } else
             {
-                return dstX * normalMoveCost + (dstY - dstX) * normalMoveCost;
+                return dstX * diagonalMoveCost + (dstY - dstX) * normalMoveCost;
             }
         }
         public int GetTileDistance(MapNode nodeA, MapNode nodeB)
